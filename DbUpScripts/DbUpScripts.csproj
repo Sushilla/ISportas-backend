@@ -1,0 +1,38 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="Scripts\01-Vartotojas.sql" />
+    <None Remove="Scripts\02-Role.sql" />
+    <None Remove="Scripts\03-Kvietimai.sql" />
+    <None Remove="Scripts\04-Treniruote.sql" />
+    <None Remove="Scripts\05-Vartotojai.sql" />
+    <None Remove="Scripts\06-PratymuSkaicius.sql" />
+    <None Remove="Scripts\07-Pratymai.sql" />
+    <None Remove="Scripts\08-AtliktuPratymuSkaicius.sql" />
+    <None Remove="Scripts\09-Statistika.sql" />
+    <None Remove="Scripts\10-PakviestiTreneriai.sql" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="Scripts\06-PratymuSkaicius.sql" />
+    <EmbeddedResource Include="Scripts\08-AtliktuPratymuSkaicius.sql" />
+    <EmbeddedResource Include="Scripts\10-PakviestiTreneriai.sql" />
+    <EmbeddedResource Include="Scripts\09-Statistika.sql" />
+    <EmbeddedResource Include="Scripts\07-Pratymai.sql" />
+    <EmbeddedResource Include="Scripts\05-Vartotojai.sql" />
+    <EmbeddedResource Include="Scripts\04-Treniruote.sql" />
+    <EmbeddedResource Include="Scripts\03-Kvietimai.sql" />
+    <EmbeddedResource Include="Scripts\02-Role.sql" />
+    <EmbeddedResource Include="Scripts\01-Vartotojas.sql" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="dbup" Version="4.4.0" />
+  </ItemGroup>
+
+</Project>

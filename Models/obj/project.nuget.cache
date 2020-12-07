@@ -1,0 +1,11 @@
+{
+  "version": 2,
+  "dgSpecHash": "NVw1WQ7wKviSe4WVtc6aeiFgfOIxt7kdjRnv/TgwBskg+Oi4iDEFOHSlcGaowSNte1j5nabr9LxY2DE6j2fWCQ==",
+  "success": true,
+  "projectFilePath": "C:\\Users\\Robert\\Desktop\\4 metai\\bakalauras\\API\\ISporta\\Models\\Models.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\Robert\\.nuget\\packages\\microsoft.netcore.platforms\\1.1.0\\microsoft.netcore.platforms.1.1.0.nupkg.sha512",
+    "C:\\Users\\Robert\\.nuget\\packages\\netstandard.library\\2.0.3\\netstandard.library.2.0.3.nupkg.sha512"
+  ],
+  "logs": []
+}
