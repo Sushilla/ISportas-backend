@@ -14,6 +14,7 @@ using Persistance.Repositories;
 using Persistance.Repositories.Kvietimai;
 using Persistance.Repositories.PakviestiTreneriai;
 using Persistance.Repositories.PrasymaiPakeistRole;
+using Persistance.Repositories.Pratymai;
 using Persistance.Repositories.Role;
 using Persistance.Repositories.Treniruote;
 using Persistance.Repositories.Vartotojai;
@@ -45,6 +46,7 @@ namespace ISporta
             services.AddSingleton<IPakviestiTreneriaiRepo, PakviestiTreneriaiRepo>();
             services.AddSingleton<IPrasymaiPakeistRoleRepo, PrasymaiPakeistRoleRepo>();
             services.AddSingleton<IVartotojaiRepo, VartotojaiRepo>();
+            services.AddSingleton<IPratymaiRepo, PratymaiRepo>();
             services.AddSwaggerGen();
         }
 
