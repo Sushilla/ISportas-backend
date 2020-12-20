@@ -9,5 +9,6 @@ namespace Models.dto
         public string PakvietimoID { get; set; }
         public string Id { get; set; }
         public string TrenerioID { get; set; }
+        public string Statusas { get; set; }
     }
 }

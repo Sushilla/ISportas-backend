@@ -13,8 +13,10 @@ using Microsoft.Extensions.Logging;
 using Persistance.Repositories;
 using Persistance.Repositories.Kvietimai;
 using Persistance.Repositories.PakviestiTreneriai;
+using Persistance.Repositories.PrasymaiPakeistRole;
 using Persistance.Repositories.Role;
 using Persistance.Repositories.Treniruote;
+using Persistance.Repositories.Vartotojai;
 using Persistance.Repositories.Vartotojas;
 
 namespace ISporta
@@ -41,6 +43,8 @@ namespace ISporta
             services.AddSingleton<IKvietimaiRepo, KvietimaiRepo>();
             services.AddSingleton<ITreniruoteRepo, TreniruoteRepo>();
             services.AddSingleton<IPakviestiTreneriaiRepo, PakviestiTreneriaiRepo>();
+            services.AddSingleton<IPrasymaiPakeistRoleRepo, PrasymaiPakeistRoleRepo>();
+            services.AddSingleton<IVartotojaiRepo, VartotojaiRepo>();
             services.AddSwaggerGen();
         }
 

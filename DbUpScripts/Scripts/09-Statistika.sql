@@ -4,5 +4,7 @@
 
      TreniruotesPradzia datetime,
 
-     TreniruotesPabaiga datetime
+     TreniruotesPabaiga datetime,
+
+     VartotojoId varchar(36)
  );

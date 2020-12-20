@@ -49,7 +49,7 @@ namespace ISporta.Controllers.PakviestiTreneriaiControler
         [Route("pakviestiTreneriai/{pakvietimoid}")]
         public async Task<ActionResult> UpdateQuestionnaire([FromRoute] Guid pakvietimoid, [FromBody] InsertPakviestiTreneriaiRequest model)
         {
-            await _pakviestiTreneriaiRepo.Update(pakvietimoid, new Guid(model.Id), new Guid(model.TrenerioID));
+            await _pakviestiTreneriaiRepo.Update(pakvietimoid, new Guid(model.Id), model.Statusas, new Guid(model.TrenerioID));
 
             return new AcceptedResult();
         }

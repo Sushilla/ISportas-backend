@@ -19,7 +19,7 @@ namespace Persistance.Repositories.PakviestiTreneriai
         private readonly string _getAllQueryString = "SELECT * FROM PakviestiTreneriai";
 
         private readonly string _updateQueryString =
-            "UPDATE PakviestiTreneriai SET Id='{0}', TrenerioID='{1}' WHERE PakvietimoId='{2}'";
+            "UPDATE PakviestiTreneriai SET Id='{0}', TrenerioID='{1}', Statusas='{2}' WHERE PakvietimoId='{3}'";
         public PakviestiTreneriaiRepo(ISqlClient sqlclient)
         {
             _sqlClient = sqlclient;
@@ -71,9 +71,9 @@ namespace Persistance.Repositories.PakviestiTreneriai
             };
         }
 
-        public async Task Update(Guid PakvietimoId, Guid Id, Guid TrenerioID)
+        public async Task Update(Guid PakvietimoId, Guid Id, string Statusas, Guid TrenerioID)
         {
-            var queryString = string.Format(_updateQueryString, Id, TrenerioID, PakvietimoId);
+            var queryString = string.Format(_updateQueryString, Id, TrenerioID, Statusas, PakvietimoId);
 
             await _sqlClient.ExecuteNonQuery(queryString);
         }

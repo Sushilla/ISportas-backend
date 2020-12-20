@@ -11,6 +11,6 @@ namespace Persistance.Repositories.PakviestiTreneriai
         public Task<Guid> Insert(string Id, string TrenerioID);
         public Task Delete(Guid id);
         public Task<IEnumerable<PakviestiTreneriaiDo>> GetAll();
-        public  Task Update(Guid PakvietimoId, Guid Id, Guid TrenerioID);
+        public  Task Update(Guid PakvietimoId, Guid Id, string stat, Guid TrenerioID);
     }
 }

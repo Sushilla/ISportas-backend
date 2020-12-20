@@ -9,5 +9,6 @@ namespace Models.Models
         public Guid PakvietimoID { get; set; }
         public Guid Id { get; set; }
         public Guid TrenerioID { get; set; }
+        public string Statusas { get; set; }
     }
 }

@@ -4,6 +4,8 @@
 
      StatistikosId varchar(36),
 
+     AtpazyntoPratymoId varchar(36),
+
      Priejimas int,
 
      Skaicius int
