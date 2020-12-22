@@ -26,6 +26,7 @@ namespace ISporta
 {
     public class Startup
     {
+        readonly string MyAllowSpecificOrigins = "_myAllowSpecificOrigins";
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
@@ -52,6 +53,11 @@ namespace ISporta
             services.AddSingleton<IStatistikaRepo, StatistikaRepo>();
             services.AddSingleton<IPratymuSkaiciusRepo, PratymuSkaiciusRepo>();
             services.AddSwaggerGen();
+
+            services.AddCors(options => options.AddDefaultPolicy(builder => builder
+             .AllowAnyHeader()
+             .AllowAnyMethod()
+             .AllowAnyOrigin()));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -77,6 +83,8 @@ namespace ISporta
             app.UseRouting();
 
             app.UseAuthorization();
+
+            app.UseCors();
 
             app.UseEndpoints(endpoints =>
             {

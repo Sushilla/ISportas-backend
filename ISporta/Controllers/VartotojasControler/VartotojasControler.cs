@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Models.Models;
+using Models.Models.Trainers;
 using Persistance.Repositories.Vartotojas;
 using System;
 using System.Collections.Generic;
@@ -23,7 +24,7 @@ namespace ISporta.Controllers.VartotojasControler.Dto
             [Route("vartotojas")]
             public async Task<ActionResult> CreateQuestionnaire([FromBody] InsertVartotojasRequest model)
             {
-                await _vartotojasRepo.Insert(new Guid(model.RolesId), model.Vardas, model.Pavarde, model.Email, model.Password);
+                await _vartotojasRepo.UserRegister(model.Vardas, model.Pavarde, model.Email, model.Password);
                 return new AcceptedResult();
             }
 
@@ -51,6 +52,16 @@ namespace ISporta.Controllers.VartotojasControler.Dto
                 await _vartotojasRepo.Update(id, new Guid(model.RolesId), model.Vardas, model.Pavarde, model.Email, model.Password);
 
                 return new AcceptedResult();
+            }
+
+
+            [HttpGet]
+            [Route("vartotojasTreneris")]
+            public async Task<ActionResult<IEnumerable<TrainerListDo>>> GetTrainers()
+            {
+                var result = await _vartotojasRepo.GetTrainers();
+
+                return new OkObjectResult(result);
             }
         }
     }
