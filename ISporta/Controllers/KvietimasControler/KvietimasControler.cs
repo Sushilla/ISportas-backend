@@ -1,6 +1,7 @@
 ﻿using ISporta.Controllers.KvietimasControler.Dto;
 using Microsoft.AspNetCore.Mvc;
 using Models.Models;
+using Models.Models.Trainers;
 using Persistance.Repositories.Kvietimai;
 using System;
 using System.Collections.Generic;
@@ -37,10 +38,10 @@ namespace ISporta.Controllers.KvietimasControler
         }
 
         [HttpGet]
-        [Route("kvietimai")]
-        public async Task<ActionResult<IEnumerable<KvietimaiDo>>> GetAllQuestionnaire()
+        [Route("kvietimai/{trenerioId}")]
+        public async Task<ActionResult<IEnumerable<TrainerRequestsToFriendDo>>> GetAllQuestionnaire([FromRoute] Guid trenerioId)
         {
-            var result = await _kvietimaiRepo.GetAll();
+            var result = await _kvietimaiRepo.GetAll(trenerioId);
 
             return new OkObjectResult(result);
         }

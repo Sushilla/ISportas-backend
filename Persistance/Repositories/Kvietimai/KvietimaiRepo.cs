@@ -1,5 +1,7 @@
 ﻿using Models.dto;
+using Models.dto.Trainers;
 using Models.Models;
+using Models.Models.Trainers;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -16,7 +18,7 @@ namespace Persistance.Repositories.Kvietimai
 
         private readonly string _insertQueryString = "INSERT INTO Kvietimai (KvietimoId, TrenerioID, VartotojoId, SukurimoData) VALUES ('{0}', '{1}', '{2}', '{3}')";
         private readonly string _deleteQueryString = "DELETE FROM Kvietimai WHERE KvietimoId='{0}'";
-        private readonly string _getAllQueryString = "SELECT * FROM Kvietimai";
+        private readonly string _getAllQueryString = "SELECT k.*, v.Vardas, v.Pavarde FROM Kvietimai as k, Vartotojas as v WHERE TrenerioID='{0}' AND v.Id=k.VartotojoId";
 
         private readonly string _updateQueryString =
             "UPDATE Kvietimai SET TrenerioID='{0}', VartotojoId='{1}' WHERE KvietimoId='{2}'";
@@ -44,35 +46,41 @@ namespace Persistance.Repositories.Kvietimai
             await _sqlClient.ExecuteNonQuery(deleteQuery);
         }
 
-        public async Task<IEnumerable<KvietimaiDo>> GetAll()
+        public async Task<IEnumerable<TrainerRequestsToFriendDo>> GetAll(Guid trenerioId)
         {
-            var getAllQuery = string.Format(_getAllQueryString);
+            var getAllQuery = string.Format(_getAllQueryString, trenerioId.ToString());
 
-            var result = await _sqlClient.ExecuteQueryList<KvietimaiDto>(getAllQuery, Func);
-            var resultTask = result.Select(d => new KvietimaiDo
+            var result = await _sqlClient.ExecuteQueryList<TrainerRequestsToFriendDto>(getAllQuery, Func);
+            var resultTask = result.Select(d => new TrainerRequestsToFriendDo
             {
                 KvietimoId = new Guid(d.KvietimoId),
                 TrenerioID = new Guid(d.TrenerioID),
                 VartotojoId = new Guid(d.VartotojoId),
-                SukurimoData = DateTime.Parse(d.SukurimoData)
+                SukurimoData = DateTime.Parse(d.SukurimoData),
+                Vardas = d.Vardas,
+                Pavarde = d.Pavarde
             });
 
             return resultTask;
         }
 
-        private async Task<KvietimaiDto> Func(SqlDataReader reader) //pagalbine fnkc
+        private async Task<TrainerRequestsToFriendDto> Func(SqlDataReader reader) //pagalbine fnkc
         {
             var KvietimoId = await reader.GetFieldValueAsync<string>("KvietimoId");
             var TrenerioID = await reader.GetFieldValueAsync<string>("TrenerioID");
             var VartotojoId = await reader.GetFieldValueAsync<string>("VartotojoId");
             var SukurimoData = await reader.GetFieldValueAsync<DateTime>("SukurimoData");
+            var Vardas = await reader.GetFieldValueAsync<string>("Vardas");
+            var Pavarde = await reader.GetFieldValueAsync<string>("Pavarde");
 
-            return new KvietimaiDto
+            return new TrainerRequestsToFriendDto
             {
                 KvietimoId = KvietimoId,
                 TrenerioID = TrenerioID,
                 VartotojoId = VartotojoId,
-                SukurimoData = SukurimoData.ToString()
+                SukurimoData = SukurimoData.ToString(),
+                Vardas = Vardas,
+                Pavarde = Pavarde
             };
         }
 
