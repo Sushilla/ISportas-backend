@@ -18,8 +18,8 @@ namespace Persistance.Repositories.Kvietimai
 
         private readonly string _insertQueryString = "INSERT INTO Kvietimai (KvietimoId, TrenerioID, VartotojoId, SukurimoData) VALUES ('{0}', '{1}', '{2}', '{3}')";
         private readonly string _deleteQueryString = "DELETE FROM Kvietimai WHERE KvietimoId='{0}'";
-        private readonly string _getAllQueryString = "SELECT k.*, v.Vardas, v.Pavarde FROM Kvietimai as k, Vartotojas as v WHERE TrenerioID='{0}' AND v.Id=k.VartotojoId";
-
+        private readonly string _getAllQueryString = "SELECT k.*, v.Vardas, v.Pavarde FROM Kvietimai as k, Vartotojas as v WHERE TrenerioID='{0}' AND v.Id=k.VartotojoId ORDER BY k.SukurimoData desc";
+        private readonly string _getNumberOfInvitesString = "SELECT COUNT(*) as yra FROM Kvietimai WHERE TrenerioID='{0}'";
         private readonly string _updateQueryString =
             "UPDATE Kvietimai SET TrenerioID='{0}', VartotojoId='{1}' WHERE KvietimoId='{2}'";
 
@@ -31,7 +31,7 @@ namespace Persistance.Repositories.Kvietimai
         public async Task<Guid> Insert(string TrenerioID, string VartotojoId)
         {
             var id = Guid.NewGuid();
-            var SukurimoData = DateTime.Now.ToString("MM/dd/yyyy HH:mm");
+            var SukurimoData = DateTime.Now.ToString("MM/dd/yyyy HH:mm:ss");
             var insertQuery = string.Format(_insertQueryString, id, TrenerioID, VartotojoId, SukurimoData);
 
             await _sqlClient.ExecuteNonQuery(insertQuery);
@@ -75,12 +75,36 @@ namespace Persistance.Repositories.Kvietimai
 
             return new TrainerRequestsToFriendDto
             {
-                KvietimoId = KvietimoId,
-                TrenerioID = TrenerioID,
-                VartotojoId = VartotojoId,
-                SukurimoData = SukurimoData.ToString(),
-                Vardas = Vardas,
-                Pavarde = Pavarde
+                    KvietimoId = KvietimoId,
+                    TrenerioID = TrenerioID,
+                    VartotojoId = VartotojoId,
+                    SukurimoData = SukurimoData.ToString(),
+                    Vardas = Vardas,
+                    Pavarde = Pavarde
+            };
+        }
+
+
+        public async Task<IEnumerable<TrainerRequestCountDo>> GetNumberOfRequests(Guid trenerioId)
+        {
+            var getAllQuery = string.Format(_getNumberOfInvitesString, trenerioId.ToString());
+
+            var result = await _sqlClient.ExecuteQueryList<TrainerRequestCountDto>(getAllQuery, getSkaicius);
+            var resultTask = result.Select(d => new TrainerRequestCountDo
+            {
+                yra = Int32.Parse(d.yra)
+            });
+
+            return resultTask;
+        }
+
+        private async Task<TrainerRequestCountDto> getSkaicius(SqlDataReader reader) //pagalbine fnkc
+        {
+            var yra = await reader.GetFieldValueAsync<int>("yra");
+
+            return new TrainerRequestCountDto
+            {
+                yra = yra +""
             };
         }
 

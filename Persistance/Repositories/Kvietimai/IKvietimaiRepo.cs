@@ -13,5 +13,6 @@ namespace Persistance.Repositories.Kvietimai
         public Task Delete(Guid id);
         public Task<IEnumerable<TrainerRequestsToFriendDo>> GetAll(Guid trenerioId);
         public Task Update(Guid KvietimoId, Guid TrenerioID, Guid VartotojoId);
+        public Task<IEnumerable<TrainerRequestCountDo>> GetNumberOfRequests(Guid trenerioId);
     }
 }

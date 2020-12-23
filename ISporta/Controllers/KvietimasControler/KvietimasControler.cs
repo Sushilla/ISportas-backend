@@ -46,6 +46,15 @@ namespace ISporta.Controllers.KvietimasControler
             return new OkObjectResult(result);
         }
 
+        [HttpGet]
+        [Route("kvietimaiSkaicius/{trenerioId}")]
+        public async Task<ActionResult<IEnumerable<TrainerRequestsToFriendDo>>> GetAllQuestionnaires([FromRoute] Guid trenerioId)
+        {
+            var result = await _kvietimaiRepo.GetNumberOfRequests(trenerioId);
+
+            return new OkObjectResult(result);
+        }
+
         [HttpPost]
         [Route("kvietimai/{kvietimoid}")]
         public async Task<ActionResult> UpdateQuestionnaire([FromRoute] Guid kvietimoid, [FromBody] InsertKvietimasRequest model)
