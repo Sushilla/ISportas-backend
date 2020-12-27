@@ -28,6 +28,14 @@ namespace ISporta.Controllers.PakviestiTreneriaiControler
             return new AcceptedResult();
         }
 
+        [HttpPut]
+        [Route("pakviestiTreneriaiAcceptReuqest/{kvietimoId}")]
+        public async Task<ActionResult> CopyAndDeleteFromKvietimai([FromRoute] Guid kvietimoId)
+        {
+            await _pakviestiTreneriaiRepo.InsertAcceptedRequest(kvietimoId);
+            return new AcceptedResult();
+        }
+
         [HttpDelete]
         [Route("pakviestiTreneriai/{id}")]
         public async Task<ActionResult> DeleteQuestionnaire([FromRoute] Guid id)

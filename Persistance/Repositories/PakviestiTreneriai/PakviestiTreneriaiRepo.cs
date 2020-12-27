@@ -17,6 +17,7 @@ namespace Persistance.Repositories.PakviestiTreneriai
         private readonly string _insertQueryString = "INSERT INTO PakviestiTreneriai (PakvietimoId, Id, TrenerioID) VALUES ('{0}', '{1}', '{2}')";
         private readonly string _deleteQueryString = "DELETE FROM PakviestiTreneriai WHERE PakvietimoId='{0}'";
         private readonly string _getAllQueryString = "SELECT * FROM PakviestiTreneriai";
+        private readonly string _acceptStringCOPY = "INSERT INTO PakviestiTreneriai(PakvietimoId, Id, TrenerioID, Statusas) SELECT '{0}', k.VartotojoId, k.TrenerioId, 'accept' FROM Kvietimai as k WHERE k.KvietimoId= '{1}' DELETE FROM Kvietimai WHERE KvietimoId= '{1}'";
 
         private readonly string _updateQueryString =
             "UPDATE PakviestiTreneriai SET Id='{0}', TrenerioID='{1}', Statusas='{2}' WHERE PakvietimoId='{3}'";
@@ -31,6 +32,16 @@ namespace Persistance.Repositories.PakviestiTreneriai
             var insertQuery = string.Format(_insertQueryString, id, Id, TrenerioID);
 
             await _sqlClient.ExecuteNonQuery(insertQuery);
+
+            return id;
+        }
+
+        public async Task<Guid> InsertAcceptedRequest(Guid kvietId)
+        {
+            var id = Guid.NewGuid();
+            var copyDel = string.Format(_acceptStringCOPY, id, kvietId.ToString());
+
+            await _sqlClient.ExecuteNonQuery(copyDel);
 
             return id;
         }
