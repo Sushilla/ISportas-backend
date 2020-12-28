@@ -1,6 +1,7 @@
 ﻿using ISporta.Controllers.PakviestiTreneriaiControler.Dto;
 using Microsoft.AspNetCore.Mvc;
 using Models.Models;
+using Models.Models.Users;
 using Persistance.Repositories.PakviestiTreneriai;
 using System;
 using System.Collections.Generic;
@@ -45,10 +46,10 @@ namespace ISporta.Controllers.PakviestiTreneriaiControler
         }
 
         [HttpGet]
-        [Route("pakviestiTreneriai")]
-        public async Task<ActionResult<IEnumerable<PakviestiTreneriaiDo>>> GetAllQuestionnaire()
+        [Route("pakviestiTreneriai/{id}")]
+        public async Task<ActionResult<IEnumerable<UserGetAcceptedTrainerListDo>>> GetAllQuestionnaire([FromRoute] Guid id)
         {
-            var result = await _pakviestiTreneriaiRepo.GetAll();
+            var result = await _pakviestiTreneriaiRepo.GetAll(id);
 
             return new OkObjectResult(result);
         }

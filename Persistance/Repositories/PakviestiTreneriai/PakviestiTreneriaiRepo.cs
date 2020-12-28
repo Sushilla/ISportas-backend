@@ -1,5 +1,7 @@
 ﻿using Models.dto;
+using Models.dto.Users;
 using Models.Models;
+using Models.Models.Users;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -16,7 +18,7 @@ namespace Persistance.Repositories.PakviestiTreneriai
 
         private readonly string _insertQueryString = "INSERT INTO PakviestiTreneriai (PakvietimoId, Id, TrenerioID) VALUES ('{0}', '{1}', '{2}')";
         private readonly string _deleteQueryString = "DELETE FROM PakviestiTreneriai WHERE PakvietimoId='{0}'";
-        private readonly string _getAllQueryString = "SELECT * FROM PakviestiTreneriai";
+        private readonly string _getAllQueryString = "SELECT v.Id, v.Vardas, v.Pavarde, v.Email FROM PakviestiTreneriai as p, Vartotojas as v WHERE p.Id='{0}' AND p.TrenerioID=v.Id";
         private readonly string _acceptStringCOPY = "INSERT INTO PakviestiTreneriai(PakvietimoId, Id, TrenerioID, Statusas) SELECT '{0}', k.VartotojoId, k.TrenerioId, 'accept' FROM Kvietimai as k WHERE k.KvietimoId= '{1}' DELETE FROM Kvietimai WHERE KvietimoId= '{1}'";
 
         private readonly string _updateQueryString =
@@ -53,32 +55,35 @@ namespace Persistance.Repositories.PakviestiTreneriai
             await _sqlClient.ExecuteNonQuery(deleteQuery);
         }
 
-        public async Task<IEnumerable<PakviestiTreneriaiDo>> GetAll()
+        public async Task<IEnumerable<UserGetAcceptedTrainerListDo>> GetAll(Guid id)
         {
-            var getAllQuery = string.Format(_getAllQueryString);
+            var getAllQuery = string.Format(_getAllQueryString, id);
 
-            var result = await _sqlClient.ExecuteQueryList<PakviestiTreneriaiDto>(getAllQuery, Func);
-            var resultTask = result.Select(d => new PakviestiTreneriaiDo
+            var result = await _sqlClient.ExecuteQueryList<UserGetAcceptedTrainerListDto>(getAllQuery, Func);
+            var resultTask = result.Select(d => new UserGetAcceptedTrainerListDo
             {
-                PakvietimoID = new Guid(d.PakvietimoID),
                 Id = new Guid(d.Id),
-                TrenerioID = new Guid(d.TrenerioID)
+                Vardas = d.Vardas,
+                Pavarde = d.Pavarde,
+                Email = d.Email
             });
 
             return resultTask;
         }
 
-        private async Task<PakviestiTreneriaiDto> Func(SqlDataReader reader) //pagalbine fnkc
+        private async Task<UserGetAcceptedTrainerListDto> Func(SqlDataReader reader) //pagalbine fnkc
         {
-            var PakvietimoID = await reader.GetFieldValueAsync<string>("PakvietimoID");
             var Id = await reader.GetFieldValueAsync<string>("Id");
-            var TrenerioID = await reader.GetFieldValueAsync<string>("TrenerioID");
+            var Vardas = await reader.GetFieldValueAsync<string>("Vardas");
+            var Pavarde = await reader.GetFieldValueAsync<string>("Pavarde");
+            var Email = await reader.GetFieldValueAsync<string>("Email");
 
-            return new PakviestiTreneriaiDto
+            return new UserGetAcceptedTrainerListDto
             {
-                PakvietimoID = PakvietimoID,
                 Id = Id,
-                TrenerioID = TrenerioID
+                Vardas = Vardas,
+                Pavarde = Pavarde,
+                Email = Email
             };
         }
 
