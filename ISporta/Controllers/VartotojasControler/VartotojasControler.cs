@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Models.Models;
 using Models.Models.Trainers;
+using Models.Models.Users;
 using Persistance.Repositories.Vartotojas;
 using System;
 using System.Collections.Generic;
@@ -63,5 +64,14 @@ namespace ISporta.Controllers.VartotojasControler.Dto
 
                 return new OkObjectResult(result);
             }
-        }
+
+            [HttpGet]
+            [Route("vartotojasLogin/{email}/{pass}")]
+            public async Task<ActionResult<IEnumerable<LoginResponseDo>>> GetLoginUserInfo([FromRoute] string email, [FromRoute] string pass)
+            {
+                var result = await _vartotojasRepo.GetLoginUserInfo(email, pass);
+
+                return new OkObjectResult(result);
+            }
+    }
     }

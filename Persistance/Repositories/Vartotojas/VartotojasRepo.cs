@@ -1,7 +1,9 @@
 ﻿using Models.dto;
 using Models.dto.Trainers;
+using Models.dto.Users;
 using Models.Models;
 using Models.Models.Trainers;
+using Models.Models.Users;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -19,6 +21,7 @@ namespace Persistance.Repositories.Vartotojas
         private readonly string _insertQueryString = "INSERT INTO Vartotojas (Id, RolesId, Vardas, Pavarde, Email, Password) VALUES ('{0}', '445e5161-bef7-432e-9329-30c4ffd09541', '{1}', '{2}', '{3}', '{4}')";
         private readonly string _deleteQueryString = "DELETE FROM Vartotojas WHERE Id='{0}'";
         private readonly string _getAllQueryString = "SELECT * FROM Vartotojas";
+        private readonly string _getLoginInfoIfUserExist = "IF EXISTS (SELECT * FROM Vartotojas as v WHERE v.Email='{0}' AND v.Password='{1}') BEGIN SELECT v.Id, v.Vardas, v.Pavarde, v.Email, r.Pavadinimas FROM Vartotojas as v, Role as r WHERE v.Email='{0}' AND v.Password='{1}' AND v.RolesId=r.RolesId END ELSE BEGIN SELECT 0 as empty END";
         private readonly string _getTrainerQueryString = "SELECT Id, Email FROM Vartotojas WHERE RolesId='c2103b14-4be9-43e3-b11c-a8da83e83a78'";
         private readonly string asdasa = "IF NOT EXISTS (SELECT * FROM Vartotojas WHERE Email = '{0}') BEGIN INSERT INTO Vartotojas (Id, RolesId, Vardas, Pavarde, Email, Password) VALUES ('{1}', '445e5161-bef7-432e-9329-30c4ffd09541', '{2}', '{3}', '{4}', '{5}') END";
 
@@ -115,6 +118,42 @@ namespace Persistance.Repositories.Vartotojas
             var queryString = string.Format(_updateQueryString, rolesId, vardas, pavarde, email, password, id);
 
             await _sqlClient.ExecuteNonQuery(queryString);
+        }
+
+        public async Task<IEnumerable<LoginResponseDo>> GetLoginUserInfo(string email, string pass)
+        {
+            var getAllQuery = string.Format(_getLoginInfoIfUserExist, email, pass);
+
+            var result = await _sqlClient.ExecuteQueryList<LoginResponseDto>(getAllQuery, FuncToGetDataForLogin);
+            var resultTask = result.Select(d => new LoginResponseDo
+            {
+                Id = new Guid(d.Id),
+                Vardas = d.Vardas,
+                Pavarde = d.Pavarde,
+                Email = d.Email,
+                Pavadinimas = d.Pavadinimas
+
+            });
+
+            return resultTask;
+        }
+
+        private async Task<LoginResponseDto> FuncToGetDataForLogin(SqlDataReader reader) //pagalbine fnkc
+        {
+            var Id = await reader.GetFieldValueAsync<string>("Id");
+            var Vardas = await reader.GetFieldValueAsync<string>("Vardas");
+            var Pavarde = await reader.GetFieldValueAsync<string>("Pavarde");
+            var Email = await reader.GetFieldValueAsync<string>("Email");
+            var Pavadinimas = await reader.GetFieldValueAsync<string>("Pavadinimas");
+
+            return new LoginResponseDto
+            {
+                Id = Id,
+                Vardas = Vardas,
+                Pavarde = Pavarde,
+                Email = Email,
+                Pavadinimas = Pavadinimas
+            };
         }
     }
 }

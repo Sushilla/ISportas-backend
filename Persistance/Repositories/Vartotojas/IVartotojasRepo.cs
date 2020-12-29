@@ -1,5 +1,6 @@
 ﻿using Models.Models;
 using Models.Models.Trainers;
+using Models.Models.Users;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -14,6 +15,7 @@ namespace Persistance.Repositories.Vartotojas
         public Task<IEnumerable<VartotojasDo>> GetAll();
         public Task Update(Guid id, Guid rolesId, string vardas, string pavarde, string email, string password);
         public Task<IEnumerable<TrainerListDo>> GetTrainers();
+        public Task<IEnumerable<LoginResponseDo>> GetLoginUserInfo(string email, string pass);
 
     }
 }
