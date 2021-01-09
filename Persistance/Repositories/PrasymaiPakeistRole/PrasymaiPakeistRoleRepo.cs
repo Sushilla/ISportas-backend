@@ -16,7 +16,7 @@ namespace Persistance.Repositories.PrasymaiPakeistRole
 
         private readonly string _insertQueryString = "INSERT INTO PrasymaiPakeistRole (PakvietimoId, Id, SukurimoData) VALUES ('{0}', '{1}', '{2}')";
         private readonly string _deleteQueryString = "DELETE FROM PrasymaiPakeistRole WHERE PakvietimoId='{0}'";
-        private readonly string _getAllQueryString = "SELECT * FROM PrasymaiPakeistRole";
+        private readonly string _getAllQueryString = "SELECT p.PakvietimoId, p.SukurimoData, v.Vardas, v.Pavarde FROM PrasymaiPakeistRole as p, Vartotojas as v WHERE p.Id=v.Id";
 
         private readonly string _updateQueryString =
             "UPDATE PrasymaiPakeistRole SET Id='{0}', TrenerioID='{1}', Statusas='{2}' WHERE PakvietimoId='{3}'";
@@ -25,11 +25,11 @@ namespace Persistance.Repositories.PrasymaiPakeistRole
             _sqlClient = sqlclient;
         }
 
-        public async Task<Guid> Insert(string Id)
+        public async Task<Guid> Insert(Guid Id)
         {
             var id = Guid.NewGuid();
             var SukurimoData = DateTime.Now.ToString("MM/dd/yyyy HH:mm");
-            var insertQuery = string.Format(_insertQueryString, id, Id, SukurimoData);
+            var insertQuery = string.Format(_insertQueryString, id, Id.ToString(), SukurimoData);
 
             await _sqlClient.ExecuteNonQuery(insertQuery);
 
@@ -51,8 +51,9 @@ namespace Persistance.Repositories.PrasymaiPakeistRole
             var resultTask = result.Select(d => new PrasymaiPakeistRoleDo
             {
                 PakvietimoId = new Guid(d.PakvietimoId),
-                Id = new Guid(d.Id),
-                SukurimoData = DateTime.Parse(d.SukurimoData)
+                SukurimoData = DateTime.Parse(d.SukurimoData),
+                Vardas = d.Vardas,
+                Pavarde = d.Pavarde
             });
 
             return resultTask;
@@ -61,14 +62,17 @@ namespace Persistance.Repositories.PrasymaiPakeistRole
         private async Task<PrasymaiPakeistRoleDto> Func(SqlDataReader reader) //pagalbine fnkc
         {
             var PakvietimoID = await reader.GetFieldValueAsync<string>("PakvietimoID");
-            var Id = await reader.GetFieldValueAsync<string>("Id");
             var SukurimoData = await reader.GetFieldValueAsync<DateTime>("SukurimoData");
+            var Vardas = await reader.GetFieldValueAsync<string>("Vardas");
+            var Pavarde = await reader.GetFieldValueAsync<string>("Pavarde");
+
 
             return new PrasymaiPakeistRoleDto
             {
                 PakvietimoId = PakvietimoID,
-                Id = Id,
-                SukurimoData = SukurimoData.ToString()
+                SukurimoData = SukurimoData.ToString(),
+                Vardas = Vardas,
+                Pavarde = Pavarde
             };
         }
 

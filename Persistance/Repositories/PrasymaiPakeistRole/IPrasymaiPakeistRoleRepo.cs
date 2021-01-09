@@ -8,7 +8,7 @@ namespace Persistance.Repositories.PrasymaiPakeistRole
 {
     public interface IPrasymaiPakeistRoleRepo
     {
-        public  Task<Guid> Insert(string Id);
+        public  Task<Guid> Insert(Guid Id);
         public  Task Delete(Guid id);
         public Task<IEnumerable<PrasymaiPakeistRoleDo>> GetAll();
 

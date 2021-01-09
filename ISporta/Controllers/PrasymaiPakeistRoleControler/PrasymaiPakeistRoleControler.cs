@@ -21,10 +21,10 @@ namespace ISporta.Controllers.PrasymaiPakeistRoleControler
         }
 
         [HttpPut]
-        [Route("PrasymaiPakeistRole")]
-        public async Task<ActionResult> CreateQuestionnaire([FromBody] InsertPrasymaiPakeistRoleRequest model)
+        [Route("PrasymaiPakeistRole/{id}")]
+        public async Task<ActionResult> CreateQuestionnaire([FromRoute] Guid id)
         {
-            await _prasymaiPakeistRoleRepo.Insert(model.Id);
+            await _prasymaiPakeistRoleRepo.Insert(id);
             return new AcceptedResult();
         }
 
