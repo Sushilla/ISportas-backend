@@ -17,7 +17,7 @@ namespace Persistance.Repositories.PrasymaiPakeistRole
         private readonly string _insertQueryString = "INSERT INTO PrasymaiPakeistRole (PakvietimoId, Id, SukurimoData) VALUES ('{0}', '{1}', '{2}')";
         private readonly string _deleteQueryString = "DELETE FROM PrasymaiPakeistRole WHERE PakvietimoId='{0}'";
         private readonly string _getAllQueryString = "SELECT p.PakvietimoId, p.SukurimoData, v.Vardas, v.Pavarde FROM PrasymaiPakeistRole as p, Vartotojas as v WHERE p.Id=v.Id";
-
+        private readonly string _acceptAndChangeRoleToAdminQueryString = "UPDATE v SET v.RolesId=r.RolesId FROM Vartotojas as v, PrasymaiPakeistRole as p INNER JOIN Role as r ON r.Pavadinimas='Trainer' WHERE p.PakvietimoId='{0}' AND v.Id=p.Id DELETE FROM PrasymaiPakeistRole WHERE PrasymaiPakeistRole.PakvietimoId='{0}'";
         private readonly string _updateQueryString =
             "UPDATE PrasymaiPakeistRole SET Id='{0}', TrenerioID='{1}', Statusas='{2}' WHERE PakvietimoId='{3}'";
         public PrasymaiPakeistRoleRepo(ISqlClient sqlclient)
@@ -34,6 +34,17 @@ namespace Persistance.Repositories.PrasymaiPakeistRole
             await _sqlClient.ExecuteNonQuery(insertQuery);
 
             return id;
+        }
+
+
+        public async Task<Guid> AcceptUserToBecomeTrainer(Guid Id)
+        {
+           // var id = Guid.NewGuid();
+            var insertQuery = string.Format(_acceptAndChangeRoleToAdminQueryString, Id.ToString());
+
+            await _sqlClient.ExecuteNonQuery(insertQuery);
+
+            return Id;
         }
 
         public async Task Delete(Guid id)

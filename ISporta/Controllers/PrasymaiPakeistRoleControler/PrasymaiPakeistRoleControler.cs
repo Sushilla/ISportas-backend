@@ -28,6 +28,14 @@ namespace ISporta.Controllers.PrasymaiPakeistRoleControler
             return new AcceptedResult();
         }
 
+        [HttpPut]
+        [Route("ApprovePakeistRole/{id}")]
+        public async Task<ActionResult> ApproveUserAndChangeToTrainerRole([FromRoute] Guid id)
+        {
+            await _prasymaiPakeistRoleRepo.AcceptUserToBecomeTrainer(id);
+            return new AcceptedResult();
+        }
+
         [HttpDelete]
         [Route("PrasymaiPakeistRole/{id}")]
         public async Task<ActionResult> DeleteQuestionnaire([FromRoute] Guid id)
