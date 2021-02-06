@@ -8,7 +8,6 @@ namespace Models.Models
     {
         public Guid TreniruotesId { get; set; }
         public Guid TrenerioId { get; set; }
-        public Guid VartotojoId { get; set; }
         public string Pavadinimas { get; set; }
         public string Aprasymas { get; set; }
         public DateTime SukurimoData { get; set; }

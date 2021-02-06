@@ -8,7 +8,6 @@ namespace Models.dto
     {
         public string TreniruotesId { get; set; }
         public string TrenerioId { get; set; }
-        public string VartotojoId { get; set; }
         public string Pavadinimas { get; set; }
         public string Aprasymas { get; set; }
         public string SukurimoData { get; set; }

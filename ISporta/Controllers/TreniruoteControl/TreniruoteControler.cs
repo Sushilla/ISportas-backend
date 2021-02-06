@@ -38,10 +38,10 @@ namespace ISporta.Controllers.TreniruoteControl
         }
 
         [HttpGet]
-        [Route("treniruote")]
-        public async Task<ActionResult<IEnumerable<KvietimaiDo>>> GetAllQuestionnaire()
+        [Route("treniruote/{trenerioid}")]
+        public async Task<ActionResult<IEnumerable<KvietimaiDo>>> GetAllQuestionnaire([FromRoute] Guid trenerioid)
         {
-            var result = await _treniruoteRepo.GetAll();
+            var result = await _treniruoteRepo.GetAll(trenerioid);
 
             return new OkObjectResult(result);
         }

@@ -16,7 +16,7 @@ namespace Persistance.Repositories.Treniruote
 
         private readonly string _insertQueryString = "INSERT INTO Treniruote (TreniruotesId, TrenerioId, VartotojoId, Pavadinimas, Aprasymas, SukurimoData) VALUES ('{0}', '{1}', '{2}', '{3}', '{4}', '{5}')";
         private readonly string _deleteQueryString = "DELETE FROM Treniruote WHERE TreniruotesId='{0}'";
-        private readonly string _getAllQueryString = "SELECT * FROM Treniruote";
+        private readonly string _getAllQueryString = "SELECT t.TreniruotesId, t.TrenerioId, t.Pavadinimas, t.Aprasymas, t.SukurimoData FROM Treniruote as t WHERE TrenerioId='{0}'";
 
         private readonly string _updateQueryString =
             "UPDATE Treniruote SET TrenerioID='{0}', VartotojoId='{1}', Pavadinimas='{2}', Aprasymas='{3}' WHERE TreniruotesId='{4}'";
@@ -44,16 +44,15 @@ namespace Persistance.Repositories.Treniruote
             await _sqlClient.ExecuteNonQuery(deleteQuery);
         }
 
-        public async Task<IEnumerable<TreniruoteDo>> GetAll()
+        public async Task<IEnumerable<TreniruoteDo>> GetAll(Guid id)
         {
-            var getAllQuery = string.Format(_getAllQueryString);
+            var getAllQuery = string.Format(_getAllQueryString, id.ToString());
 
             var result = await _sqlClient.ExecuteQueryList<TreniruoteDto>(getAllQuery, Func);
             var resultTask = result.Select(d => new TreniruoteDo
             {
                 TreniruotesId = new Guid(d.TreniruotesId),
                 TrenerioId = new Guid(d.TrenerioId),
-                VartotojoId = new Guid(d.VartotojoId),
                 Pavadinimas = d.Pavadinimas,
                 Aprasymas = d.Aprasymas,
                 SukurimoData = DateTime.Parse(d.SukurimoData)
@@ -66,7 +65,6 @@ namespace Persistance.Repositories.Treniruote
         {
             var TreniruotesId = await reader.GetFieldValueAsync<string>("TreniruotesId");
             var TrenerioId = await reader.GetFieldValueAsync<string>("TrenerioId");
-            var VartotojoId = await reader.GetFieldValueAsync<string>("VartotojoId");
             var Pavadinimas = await reader.GetFieldValueAsync<string>("Pavadinimas");
             var Aprasymas = await reader.GetFieldValueAsync<string>("Aprasymas");
             var SukurimoData = await reader.GetFieldValueAsync<DateTime>("SukurimoData");
@@ -75,7 +73,6 @@ namespace Persistance.Repositories.Treniruote
             {
                 TreniruotesId = TreniruotesId,
                 TrenerioId = TrenerioId,
-                VartotojoId = VartotojoId,
                 Pavadinimas = Pavadinimas,
                 Aprasymas = Aprasymas,
                 SukurimoData = SukurimoData.ToString()
