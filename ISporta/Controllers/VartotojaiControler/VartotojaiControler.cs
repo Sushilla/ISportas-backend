@@ -24,7 +24,7 @@ namespace ISporta.Controllers.VartotojaiControler
         [Route("vartotojai")]
         public async Task<ActionResult> CreateQuestionnaire([FromBody] InsertVartotojaiRequest model)
         {
-            await _vartotojaiRepo.Insert(model.VartotojoId);
+            await _vartotojaiRepo.Insert(model.TreniruotesId, model.VartotojoId);
             return new AcceptedResult();
         }
 

@@ -26,14 +26,13 @@ namespace Persistance.Repositories.Vartotojai
             _sqlClient = sqlclient;
         }
 
-        public async Task<Guid> Insert(string VartotojoId)
+        public async Task<Guid> Insert(string id, string VartotojoId)
         {
-            var id = Guid.NewGuid();
             var insertQuery = string.Format(_insertQueryString, id, VartotojoId);
 
             await _sqlClient.ExecuteNonQuery(insertQuery);
 
-            return id;
+            return new Guid();
         }
 
         public async Task Delete(Guid id, Guid vartId)

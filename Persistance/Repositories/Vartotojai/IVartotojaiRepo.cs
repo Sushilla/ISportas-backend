@@ -8,7 +8,7 @@ namespace Persistance.Repositories.Vartotojai
 {
     public interface IVartotojaiRepo
     {
-        public Task<Guid> Insert(string VartotojoId);
+        public Task<Guid> Insert(string id, string VartotojoId);
         public Task Delete(Guid id, Guid vartId);
         public Task<IEnumerable<VartotojaiDo>> GetAll();
     }

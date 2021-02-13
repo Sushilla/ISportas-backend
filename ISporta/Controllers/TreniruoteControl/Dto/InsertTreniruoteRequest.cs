@@ -11,5 +11,6 @@ namespace ISporta.Controllers.TreniruoteControl.Dto
         public string VartotojoId { get; set; }
         public string Pavadinimas { get; set; }
         public string Aprasymas { get; set; }
+        public IEnumerable<string> vartID { get; set; }
     }
 }

@@ -25,7 +25,7 @@ namespace ISporta.Controllers.TreniruoteControl
         [Route("treniruote")]
         public async Task<ActionResult> CreateQuestionnaire([FromBody] InsertTreniruoteRequest model)
         {
-            await _treniruoteRepo.Insert(model.TrenerioId, model.VartotojoId, model.Pavadinimas, model.Aprasymas);
+            await _treniruoteRepo.Insert(model.TrenerioId, model.VartotojoId, model.Pavadinimas, model.Aprasymas, model.vartID);
             return new AcceptedResult();
         }
 

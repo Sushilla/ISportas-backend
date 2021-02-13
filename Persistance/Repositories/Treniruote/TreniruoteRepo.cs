@@ -1,5 +1,6 @@
 ﻿using Models.dto;
 using Models.Models;
+using Persistance.Repositories.Vartotojai;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -13,6 +14,7 @@ namespace Persistance.Repositories.Treniruote
     public class TreniruoteRepo : ITreniruoteRepo
     {
         private readonly ISqlClient _sqlClient;
+        private readonly IVartotojaiRepo _ivertotojai;
 
         private readonly string _insertQueryString = "INSERT INTO Treniruote (TreniruotesId, TrenerioId, VartotojoId, Pavadinimas, Aprasymas, SukurimoData) VALUES ('{0}', '{1}', '{2}', '{3}', '{4}', '{5}')";
         private readonly string _deleteQueryString = "DELETE FROM Treniruote WHERE TreniruotesId='{0}'";
@@ -21,18 +23,24 @@ namespace Persistance.Repositories.Treniruote
         private readonly string _updateQueryString =
             "UPDATE Treniruote SET TrenerioID='{0}', VartotojoId='{1}', Pavadinimas='{2}', Aprasymas='{3}' WHERE TreniruotesId='{4}'";
 
-        public TreniruoteRepo(ISqlClient sqlclient)
+        public TreniruoteRepo(ISqlClient sqlclient, IVartotojaiRepo ivertotojai)
         {
             _sqlClient = sqlclient;
+            _ivertotojai = ivertotojai;
         }
 
-        public async Task<Guid> Insert(string TrenerioID, string VartotojoId, string Pavadinimas, string Aprasymas)
+        public async Task<Guid> Insert(string TrenerioID, string VartotojoId, string Pavadinimas, string Aprasymas, IEnumerable<string> vartId)
         {
             var id = Guid.NewGuid();
             var SukurimoData = DateTime.Now.ToString("MM/dd/yyyy HH:mm");
             var insertQuery = string.Format(_insertQueryString, id, TrenerioID, VartotojoId, Pavadinimas, Aprasymas, SukurimoData);
 
             await _sqlClient.ExecuteNonQuery(insertQuery);
+
+            foreach(var vart in vartId)
+            {
+                await _ivertotojai.Insert(id.ToString(), vart);
+            }
 
             return id;
         }
