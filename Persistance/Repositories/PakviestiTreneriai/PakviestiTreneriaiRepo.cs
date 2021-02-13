@@ -19,6 +19,7 @@ namespace Persistance.Repositories.PakviestiTreneriai
         private readonly string _insertQueryString = "INSERT INTO PakviestiTreneriai (PakvietimoId, Id, TrenerioID) VALUES ('{0}', '{1}', '{2}')";
         private readonly string _deleteQueryString = "DELETE FROM PakviestiTreneriai WHERE PakvietimoId='{0}'";
         private readonly string _getAllQueryString = "SELECT v.Id, v.Vardas, v.Pavarde, v.Email FROM PakviestiTreneriai as p, Vartotojas as v WHERE p.Id='{0}' AND p.TrenerioID=v.Id";
+        private readonly string _getAllAccpetedUdersQueryString = "SELECT v.Id, v.Vardas, v.Pavarde, v.Email FROM PakviestiTreneriai as p, Vartotojas as v WHERE p.TrenerioID='{0}' AND p.Id=v.Id";
         private readonly string _acceptStringCOPY = "INSERT INTO PakviestiTreneriai(PakvietimoId, Id, TrenerioID, Statusas) SELECT '{0}', k.VartotojoId, k.TrenerioId, 'accept' FROM Kvietimai as k WHERE k.KvietimoId= '{1}' DELETE FROM Kvietimai WHERE KvietimoId= '{1}'";
 
         private readonly string _updateQueryString =
@@ -58,6 +59,23 @@ namespace Persistance.Repositories.PakviestiTreneriai
         public async Task<IEnumerable<UserGetAcceptedTrainerListDo>> GetAll(Guid id)
         {
             var getAllQuery = string.Format(_getAllQueryString, id);
+
+            var result = await _sqlClient.ExecuteQueryList<UserGetAcceptedTrainerListDto>(getAllQuery, Func);
+            var resultTask = result.Select(d => new UserGetAcceptedTrainerListDo
+            {
+                Id = new Guid(d.Id),
+                Vardas = d.Vardas,
+                Pavarde = d.Pavarde,
+                Email = d.Email
+            });
+
+            return resultTask;
+        }
+
+
+        public async Task<IEnumerable<UserGetAcceptedTrainerListDo>> GetAllUserForTrainer(Guid id)
+        {
+            var getAllQuery = string.Format(_getAllAccpetedUdersQueryString, id);
 
             var result = await _sqlClient.ExecuteQueryList<UserGetAcceptedTrainerListDto>(getAllQuery, Func);
             var resultTask = result.Select(d => new UserGetAcceptedTrainerListDo

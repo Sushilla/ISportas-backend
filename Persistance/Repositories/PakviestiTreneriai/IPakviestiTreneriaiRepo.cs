@@ -13,6 +13,7 @@ namespace Persistance.Repositories.PakviestiTreneriai
         public Task<Guid> InsertAcceptedRequest(Guid kvietId);
         public Task Delete(Guid id);
         public Task<IEnumerable<UserGetAcceptedTrainerListDo>> GetAll(Guid id);
+        public Task<IEnumerable<UserGetAcceptedTrainerListDo>> GetAllUserForTrainer(Guid id);
         public Task Update(Guid PakvietimoId, Guid Id, string stat, Guid TrenerioID);
     }
 }

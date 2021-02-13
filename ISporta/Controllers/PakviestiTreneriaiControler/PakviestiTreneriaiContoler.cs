@@ -54,6 +54,16 @@ namespace ISporta.Controllers.PakviestiTreneriaiControler
             return new OkObjectResult(result);
         }
 
+        [HttpGet]
+        [Route("pakviestiTreneriaiUsers/{id}")]
+        public async Task<ActionResult<IEnumerable<UserGetAcceptedTrainerListDo>>> GetUserForTrainer([FromRoute] Guid id)
+        {
+            var result = await _pakviestiTreneriaiRepo.GetAllUserForTrainer(id);
+
+            return new OkObjectResult(result);
+        }
+
+
         [HttpPost]
         [Route("pakviestiTreneriai/{pakvietimoid}")]
         public async Task<ActionResult> UpdateQuestionnaire([FromRoute] Guid pakvietimoid, [FromBody] InsertPakviestiTreneriaiRequest model)
