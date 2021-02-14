@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Models.Classes;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -12,5 +13,6 @@ namespace ISporta.Controllers.TreniruoteControl.Dto
         public string Pavadinimas { get; set; }
         public string Aprasymas { get; set; }
         public IEnumerable<string> vartID { get; set; }
+        public IEnumerable<TreniruotesPratymai> prat { get; set; }
     }
 }

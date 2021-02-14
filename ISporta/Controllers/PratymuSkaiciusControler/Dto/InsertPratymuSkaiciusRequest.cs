@@ -7,6 +7,7 @@ namespace ISporta.Controllers.PratymuSkaiciusControler.Dto
 {
     public class InsertPratymuSkaiciusRequest
     {
+        public string id { get; set; }
         public string PratimoId { get; set; }
         public int Priejimas { get; set; }
         public int Skaicius { get; set; }

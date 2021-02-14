@@ -1,5 +1,7 @@
-﻿using Models.dto;
+﻿using Models.Classes;
+using Models.dto;
 using Models.Models;
+using Persistance.Repositories.PratymuSkaicius;
 using Persistance.Repositories.Vartotojai;
 using System;
 using System.Collections.Generic;
@@ -15,6 +17,7 @@ namespace Persistance.Repositories.Treniruote
     {
         private readonly ISqlClient _sqlClient;
         private readonly IVartotojaiRepo _ivertotojai;
+        private readonly IPratymuSkaiciusRepo _ipratymuSkaicius;
 
         private readonly string _insertQueryString = "INSERT INTO Treniruote (TreniruotesId, TrenerioId, VartotojoId, Pavadinimas, Aprasymas, SukurimoData) VALUES ('{0}', '{1}', '{2}', '{3}', '{4}', '{5}')";
         private readonly string _deleteQueryString = "DELETE FROM Treniruote WHERE TreniruotesId='{0}'";
@@ -23,13 +26,14 @@ namespace Persistance.Repositories.Treniruote
         private readonly string _updateQueryString =
             "UPDATE Treniruote SET TrenerioID='{0}', VartotojoId='{1}', Pavadinimas='{2}', Aprasymas='{3}' WHERE TreniruotesId='{4}'";
 
-        public TreniruoteRepo(ISqlClient sqlclient, IVartotojaiRepo ivertotojai)
+        public TreniruoteRepo(ISqlClient sqlclient, IVartotojaiRepo ivertotojai, IPratymuSkaiciusRepo ipratymuSkaicius)
         {
             _sqlClient = sqlclient;
             _ivertotojai = ivertotojai;
+            _ipratymuSkaicius = ipratymuSkaicius;
         }
 
-        public async Task<Guid> Insert(string TrenerioID, string VartotojoId, string Pavadinimas, string Aprasymas, IEnumerable<string> vartId)
+        public async Task<Guid> Insert(string TrenerioID, string VartotojoId, string Pavadinimas, string Aprasymas, IEnumerable<string> vartId, IEnumerable<TreniruotesPratymai> prat)
         {
             var id = Guid.NewGuid();
             var SukurimoData = DateTime.Now.ToString("MM/dd/yyyy HH:mm");
@@ -40,6 +44,11 @@ namespace Persistance.Repositories.Treniruote
             foreach(var vart in vartId)
             {
                 await _ivertotojai.Insert(id.ToString(), vart);
+            }
+
+            foreach(var pratymas in prat)
+            {
+                await _ipratymuSkaicius.Insert(id.ToString(), pratymas.id.ToString(), pratymas.priej, pratymas.skaic);
             }
 
             return id;

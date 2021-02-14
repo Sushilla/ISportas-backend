@@ -24,7 +24,7 @@ namespace ISporta.Controllers.PratymuSkaiciusControler
         [Route("pratymuSkaicius")]
         public async Task<ActionResult> CreateQuestionnaire([FromBody] InsertPratymuSkaiciusRequest model)
         {
-            await _pratymuSkaiciusRepo.Insert(model.PratimoId, model.Priejimas, model.Skaicius);
+            await _pratymuSkaiciusRepo.Insert(model.id, model.PratimoId, model.Priejimas, model.Skaicius);
             return new AcceptedResult();
         }
 

@@ -26,14 +26,13 @@ namespace Persistance.Repositories.PratymuSkaicius
             _sqlClient = sqlclient;
         }
 
-        public async Task<Guid> Insert(string PratimoId, int Priejimas, int Skaicius)
+        public async Task<Guid> Insert(string id, string PratimoId, int Priejimas, int Skaicius)
         {
-            var id = Guid.NewGuid();
             var insertQuery = string.Format(_insertQueryString, id, PratimoId, Priejimas, Skaicius);
 
             await _sqlClient.ExecuteNonQuery(insertQuery);
 
-            return id;
+            return new Guid();
         }
 
         public async Task Delete(Guid id)
