@@ -10,5 +10,6 @@ namespace Models.Models
         public Guid PratymoId { get; set; }
         public int Priejimai { get; set; }
         public int Skaicius { get; set; }
+        public string Pavadinimas { get; set; }
     }
 }

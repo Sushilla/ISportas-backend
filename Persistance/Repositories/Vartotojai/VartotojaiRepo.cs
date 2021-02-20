@@ -16,7 +16,7 @@ namespace Persistance.Repositories.Vartotojai
 
         private readonly string _insertQueryString = "INSERT INTO Vartotojai (TreniruotesId, VartotojoId) VALUES ('{0}', '{1}')";
         private readonly string _deleteQueryString = "DELETE FROM Vartotojai WHERE TreniruotesId='{0}' AND VartotojoId='{1}'";
-        private readonly string _getAllQueryString = "SELECT * FROM Vartotojai";
+        private readonly string _getAllQueryString = "SELECT * FROM Vartotojai WHERE TreniruotesId = '{0}'";
 
         private readonly string _updateQueryString =
             "UPDATE Vartotojai SET TrenerioID='{0}', VartotojoId='{1}', Pavadinimas='{2}', Aprasymas='{3}' WHERE TreniruotesId='{4}'";
@@ -42,16 +42,18 @@ namespace Persistance.Repositories.Vartotojai
             await _sqlClient.ExecuteNonQuery(deleteQuery);
         }
 
-        public async Task<IEnumerable<VartotojaiDo>> GetAll()
+        public async Task<IEnumerable<Guid>> GetAll(Guid id)
         {
-            var getAllQuery = string.Format(_getAllQueryString);
+            var getAllQuery = string.Format(_getAllQueryString, id.ToString());
 
             var result = await _sqlClient.ExecuteQueryList<VartotojaiDto>(getAllQuery, Func);
-            var resultTask = result.Select(d => new VartotojaiDo
-            {
-                TreniruotesId = new Guid(d.TreniruotesId),
-                VartotojoId = new Guid(d.VartotojoId)
-            });
+            /*var resultTask = result.Select(d => new VartotojaiDo
+              {
+                  //TreniruotesId = new Guid(d.TreniruotesId),
+                  VartotojoId = new Guid(d.VartotojoId)
+              });*/
+
+            var resultTask = result.Select(d => new Guid(d.VartotojoId));
 
             return resultTask;
         }

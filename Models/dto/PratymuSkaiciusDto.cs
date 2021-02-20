@@ -10,5 +10,6 @@ namespace Models.dto
         public string PratymoId { get; set; }
         public string Priejimai { get; set; }
         public string Skaicius { get; set; }
+        public string Pavadinimas { get; set; }
     }
 }

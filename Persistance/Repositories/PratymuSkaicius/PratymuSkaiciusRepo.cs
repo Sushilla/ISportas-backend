@@ -16,7 +16,7 @@ namespace Persistance.Repositories.PratymuSkaicius
 
         private readonly string _insertQueryString = "INSERT INTO PratymuSkaicius (TreniruotesId, PratymoId, Priejimai, Skaicius) VALUES ('{0}', '{1}', '{2}', '{3}')";
         private readonly string _deleteQueryString = "DELETE FROM PratymuSkaicius WHERE TreniruotesId='{0}'";
-        private readonly string _getAllQueryString = "SELECT * FROM PratymuSkaicius";
+        private readonly string _getAllQueryString = "SELECT p.*, pra.Pavadinimas FROM PratymuSkaicius as p, Pratymai as pra WHERE p.PratymoId = pra.PratimoId and p.TreniruotesId = '{0}'";
 
         private readonly string _updateQueryString =
             "UPDATE PratymuSkaicius SET Priejimai='{0}', Skaicius='{1}' WHERE TreniruotesId='{2}' AND PratymoId='{3}'";
@@ -42,9 +42,9 @@ namespace Persistance.Repositories.PratymuSkaicius
             await _sqlClient.ExecuteNonQuery(deleteQuery);
         }
 
-        public async Task<IEnumerable<PratymuSksaiciusDo>> GetAll()
+        public async Task<IEnumerable<PratymuSksaiciusDo>> GetAll(Guid id)
         {
-            var getAllQuery = string.Format(_getAllQueryString);
+            var getAllQuery = string.Format(_getAllQueryString, id.ToString());
 
             var result = await _sqlClient.ExecuteQueryList<PratymuSkaiciusDto>(getAllQuery, Func);
             var resultTask = result.Select(d => new PratymuSksaiciusDo
@@ -52,7 +52,8 @@ namespace Persistance.Repositories.PratymuSkaicius
                 TreniruotesId = new Guid(d.TreniruotesId),
                 PratymoId = new Guid(d.PratymoId),
                 Priejimai = Int32.Parse(d.Priejimai),
-                Skaicius = Int32.Parse(d.Skaicius)
+                Skaicius = Int32.Parse(d.Skaicius),
+                Pavadinimas = d.Pavadinimas
             });
 
             return resultTask;
@@ -64,13 +65,15 @@ namespace Persistance.Repositories.PratymuSkaicius
             var PratymoId = await reader.GetFieldValueAsync<string>("PratymoId");
             var Priejimai = await reader.GetFieldValueAsync<int>("Priejimai");
             var Skaicius = await reader.GetFieldValueAsync<int>("Skaicius");
+            var Pavadinimas = await reader.GetFieldValueAsync<string>("Pavadinimas");
 
             return new PratymuSkaiciusDto
             {
                 TreniruotesId = TreniruotesId,
                 PratymoId = PratymoId,
                 Priejimai = Priejimai.ToString(),
-                Skaicius = Skaicius.ToString()
+                Skaicius = Skaicius.ToString(),
+                Pavadinimas = Pavadinimas
             };
         }
 

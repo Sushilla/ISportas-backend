@@ -37,10 +37,10 @@ namespace ISporta.Controllers.VartotojaiControler
         }
 
         [HttpGet]
-        [Route("vartotojai")]
-        public async Task<ActionResult<IEnumerable<VartotojaiDo>>> GetAllQuestionnaire()
+        [Route("vartotojai/{treniruotesID}")]
+        public async Task<ActionResult<IEnumerable<VartotojaiDo>>> GetAllQuestionnaire([FromRoute] Guid treniruotesID)
         {
-            var result = await _vartotojaiRepo.GetAll();
+            var result = await _vartotojaiRepo.GetAll(treniruotesID);
 
             return new OkObjectResult(result);
         }

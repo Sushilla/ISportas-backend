@@ -1,6 +1,7 @@
 ﻿using Models.Classes;
 using Models.dto;
 using Models.Models;
+using Models.Models.Treniruotes;
 using Persistance.Repositories.PratymuSkaicius;
 using Persistance.Repositories.Vartotojai;
 using System;
@@ -22,6 +23,7 @@ namespace Persistance.Repositories.Treniruote
         private readonly string _insertQueryString = "INSERT INTO Treniruote (TreniruotesId, TrenerioId, VartotojoId, Pavadinimas, Aprasymas, SukurimoData) VALUES ('{0}', '{1}', '{2}', '{3}', '{4}', '{5}')";
         private readonly string _deleteQueryString = "DELETE FROM Treniruote WHERE TreniruotesId='{0}'";
         private readonly string _getAllQueryString = "SELECT t.TreniruotesId, t.TrenerioId, t.Pavadinimas, t.Aprasymas, t.SukurimoData FROM Treniruote as t WHERE TrenerioId='{0}'";
+        private readonly string _getTreniruotesEditData = "SELECT t.TreniruotesId, t.TrenerioId, t.Pavadinimas, t.Aprasymas, t.SukurimoData FROM Treniruote as t WHERE TreniruotesId='{0}'";
 
         private readonly string _updateQueryString =
             "UPDATE Treniruote SET TrenerioID='{0}', VartotojoId='{1}', Pavadinimas='{2}', Aprasymas='{3}' WHERE TreniruotesId='{4}'";
@@ -73,6 +75,24 @@ namespace Persistance.Repositories.Treniruote
                 Pavadinimas = d.Pavadinimas,
                 Aprasymas = d.Aprasymas,
                 SukurimoData = DateTime.Parse(d.SukurimoData)
+            });
+
+            return resultTask;
+        }
+
+        public async Task<IEnumerable<TreniruotesWithDataDo>> GetEditData(Guid id)
+        {
+            var getQueryOfTreniruote = string.Format(_getTreniruotesEditData, id.ToString());
+
+            var resultTreniruote = await _sqlClient.ExecuteQueryList<TreniruoteDto>(getQueryOfTreniruote, Func);
+            var trenPratymai = await _ipratymuSkaicius.GetAll(id);
+            //var vartototojai = await
+            var resultTask = resultTreniruote.Select(d => new TreniruotesWithDataDo
+            {
+                TreniruotesId = new Guid(d.TreniruotesId),
+                Pavadinimas = d.Pavadinimas,
+                Aprasymas = d.Aprasymas,
+                TreniruotesPratymai = trenPratymai
             });
 
             return resultTask;

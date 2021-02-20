@@ -6,7 +6,7 @@ namespace Models.Models
 {
     public class VartotojaiDo
     {
-        public Guid TreniruotesId { get; set; }
+        //public Guid TreniruotesId { get; set; }
         public Guid VartotojoId { get; set; }
     }
 }

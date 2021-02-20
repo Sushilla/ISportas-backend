@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using Persistance.Repositories.Treniruote;
 using ISporta.Controllers.KvietimasControler.Dto;
 using Models.Models;
+using Models.Models.Treniruotes;
 
 namespace ISporta.Controllers.TreniruoteControl
 {
@@ -42,6 +43,15 @@ namespace ISporta.Controllers.TreniruoteControl
         public async Task<ActionResult<IEnumerable<KvietimaiDo>>> GetAllQuestionnaire([FromRoute] Guid trenerioid)
         {
             var result = await _treniruoteRepo.GetAll(trenerioid);
+
+            return new OkObjectResult(result);
+        }
+
+        [HttpGet]
+        [Route("treniruoteEditData/{trenerioid}")]
+        public async Task<ActionResult<IEnumerable<TreniruotesWithDataDo>>> GetAllTreniruoteData([FromRoute] Guid trenerioid)
+        {
+            var result = await _treniruoteRepo.GetEditData(trenerioid);
 
             return new OkObjectResult(result);
         }
