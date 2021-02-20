@@ -32,7 +32,7 @@ namespace ISporta.Controllers.PratymuSkaiciusControler
         [Route("pratymuSkaicius/{id}")]
         public async Task<ActionResult> DeleteQuestionnaire([FromRoute] Guid id)
         {
-            await _pratymuSkaiciusRepo.Delete(id);
+            await _pratymuSkaiciusRepo.DeleteAll(id);
             return new AcceptedResult();
         }
 

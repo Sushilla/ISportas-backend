@@ -26,7 +26,7 @@ namespace Persistance.Repositories.Treniruote
         private readonly string _getTreniruotesEditData = "SELECT t.TreniruotesId, t.TrenerioId, t.Pavadinimas, t.Aprasymas, t.SukurimoData FROM Treniruote as t WHERE TreniruotesId='{0}'";
 
         private readonly string _updateQueryString =
-            "UPDATE Treniruote SET TrenerioID='{0}', VartotojoId='{1}', Pavadinimas='{2}', Aprasymas='{3}' WHERE TreniruotesId='{4}'";
+            "UPDATE Treniruote SET Pavadinimas='{0}', Aprasymas='{1}' WHERE TreniruotesId='{2}'";
 
         public TreniruoteRepo(ISqlClient sqlclient, IVartotojaiRepo ivertotojai, IPratymuSkaiciusRepo ipratymuSkaicius)
         {
@@ -123,9 +123,16 @@ namespace Persistance.Repositories.Treniruote
             };
         }
 
-        public async Task Update(Guid TreniruotesId, Guid TrenerioID, Guid VartotojoId, string Pavadinimas, string Aprasymas)
+        /*public async Task Update(Guid TreniruotesId, Guid TrenerioID, Guid VartotojoId, string Pavadinimas, string Aprasymas)
         {
             var queryString = string.Format(_updateQueryString, TrenerioID, VartotojoId, Pavadinimas, Aprasymas, TreniruotesId);
+
+            await _sqlClient.ExecuteNonQuery(queryString);
+        }*/
+
+        public async Task Update(Guid TreniruotesId, string Pavadinimas, string Aprasymas)
+        {
+            var queryString = string.Format(_updateQueryString, Pavadinimas, Aprasymas, TreniruotesId);
 
             await _sqlClient.ExecuteNonQuery(queryString);
         }

@@ -14,6 +14,6 @@ namespace Persistance.Repositories.Treniruote
         public Task Delete(Guid id);
         public Task<IEnumerable<TreniruoteDo>> GetAll(Guid id);
         public Task<IEnumerable<TreniruotesWithDataDo>> GetEditData(Guid id);
-        public Task Update(Guid TreniruotesId, Guid TrenerioID, Guid VartotojoId, string Pavadinimas, string Aprasymas);
+        public Task Update(Guid TreniruotesId, string Pavadinimas, string Aprasymas);
     }
 }

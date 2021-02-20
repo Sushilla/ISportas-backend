@@ -35,7 +35,7 @@ namespace Persistance.Repositories.PratymuSkaicius
             return new Guid();
         }
 
-        public async Task Delete(Guid id)
+        public async Task DeleteAll(Guid id)
         {
             var deleteQuery = string.Format(_deleteQueryString, id.ToString());
 

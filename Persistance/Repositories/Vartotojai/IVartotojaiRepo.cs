@@ -10,6 +10,7 @@ namespace Persistance.Repositories.Vartotojai
     {
         public Task<Guid> Insert(string id, string VartotojoId);
         public Task Delete(Guid id, Guid vartId);
+        public Task DeleteAll(Guid id);
         public Task<IEnumerable<Guid>> GetAll(Guid id);
     }
 }
