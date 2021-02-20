@@ -40,6 +40,9 @@ namespace ISporta.Controllers.TreniruoteControl
         public async Task<ActionResult> DeleteQuestionnaire([FromRoute] Guid id)
         {
             await _treniruoteRepo.Delete(id);
+            await _ivertotojai.DeleteAll(id);
+            await _ipratymuSkaicius.DeleteAll(id);
+            //need delete statistika????????????
             return new AcceptedResult();
         }
 
