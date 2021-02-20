@@ -86,11 +86,11 @@ namespace Persistance.Repositories.Treniruote
 
             var resultTreniruote = await _sqlClient.ExecuteQueryList<TreniruoteDto>(getQueryOfTreniruote, Func);
             var trenPratymai = await _ipratymuSkaicius.GetAll(id);
-            var trenIDs = new List<Guid>();
+            /*var trenIDs = new List<Guid>();
             foreach (var prat in trenPratymai)
             {
                 trenIDs.Add(prat.PratymoId);
-            }
+            }*/
             var vartototojai = await _ivertotojai.GetAll(id);
             var resultTask = resultTreniruote.Select(d => new TreniruotesWithDataDo
             {
@@ -98,7 +98,7 @@ namespace Persistance.Repositories.Treniruote
                 Pavadinimas = d.Pavadinimas,
                 Aprasymas = d.Aprasymas,
                 TreniruotesPratymai = trenPratymai,
-                PratIds = trenIDs,
+                //PratIds = trenIDs,
                 UsersIds =  vartototojai
             });
 
