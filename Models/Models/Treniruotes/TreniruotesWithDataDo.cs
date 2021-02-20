@@ -10,5 +10,7 @@ namespace Models.Models.Treniruotes
         public string Pavadinimas { get; set; }
         public string Aprasymas { get; set; }
         public IEnumerable<PratymuSksaiciusDo> TreniruotesPratymai{get; set;}
+        public IEnumerable<Guid> PratIds{get; set; }
+        public IEnumerable<Guid> UsersIds{get; set; }
     }
 }

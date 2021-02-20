@@ -47,12 +47,6 @@ namespace Persistance.Repositories.Vartotojai
             var getAllQuery = string.Format(_getAllQueryString, id.ToString());
 
             var result = await _sqlClient.ExecuteQueryList<VartotojaiDto>(getAllQuery, Func);
-            /*var resultTask = result.Select(d => new VartotojaiDo
-              {
-                  //TreniruotesId = new Guid(d.TreniruotesId),
-                  VartotojoId = new Guid(d.VartotojoId)
-              });*/
-
             var resultTask = result.Select(d => new Guid(d.VartotojoId));
 
             return resultTask;

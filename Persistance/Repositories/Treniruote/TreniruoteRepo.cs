@@ -86,13 +86,20 @@ namespace Persistance.Repositories.Treniruote
 
             var resultTreniruote = await _sqlClient.ExecuteQueryList<TreniruoteDto>(getQueryOfTreniruote, Func);
             var trenPratymai = await _ipratymuSkaicius.GetAll(id);
-            //var vartototojai = await
+            var trenIDs = new List<Guid>();
+            foreach (var prat in trenPratymai)
+            {
+                trenIDs.Add(prat.PratymoId);
+            }
+            var vartototojai = await _ivertotojai.GetAll(id);
             var resultTask = resultTreniruote.Select(d => new TreniruotesWithDataDo
             {
                 TreniruotesId = new Guid(d.TreniruotesId),
                 Pavadinimas = d.Pavadinimas,
                 Aprasymas = d.Aprasymas,
-                TreniruotesPratymai = trenPratymai
+                TreniruotesPratymai = trenPratymai,
+                PratIds = trenIDs,
+                UsersIds =  vartototojai
             });
 
             return resultTask;
