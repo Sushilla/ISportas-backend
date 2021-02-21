@@ -1,5 +1,6 @@
 ﻿using Models.Classes;
 using Models.dto;
+using Models.dto.Workout;
 using Models.Models;
 using Models.Models.Treniruotes;
 using Persistance.Repositories.PratymuSkaicius;
@@ -24,6 +25,7 @@ namespace Persistance.Repositories.Treniruote
         private readonly string _deleteQueryString = "DELETE FROM Treniruote WHERE TreniruotesId='{0}'";
         private readonly string _getAllQueryString = "SELECT t.TreniruotesId, t.TrenerioId, t.Pavadinimas, t.Aprasymas, t.SukurimoData FROM Treniruote as t WHERE TrenerioId='{0}'";
         private readonly string _getTreniruotesEditData = "SELECT t.TreniruotesId, t.TrenerioId, t.Pavadinimas, t.Aprasymas, t.SukurimoData FROM Treniruote as t WHERE TreniruotesId='{0}'";
+        private readonly string _getUserWorkoutList = "SELECT t.TreniruotesId, t.Pavadinimas, t.Aprasymas, t.SukurimoData FROM Treniruote as t, Vartotojai as u WHERE t.TrenerioId = '{0}' and t.TreniruotesId = u.TreniruotesId and u.VartotojoId = '{1}'";
 
         private readonly string _updateQueryString =
             "UPDATE Treniruote SET Pavadinimas='{0}', Aprasymas='{1}' WHERE TreniruotesId='{2}'";
@@ -80,6 +82,24 @@ namespace Persistance.Repositories.Treniruote
             return resultTask;
         }
 
+        public async Task<IEnumerable<UserWorkoutsListDo>> GetUserWorkouts(Guid trainerId, Guid userId)
+        {
+            var getAllQuery = string.Format(_getUserWorkoutList, trainerId.ToString(), userId.ToString());
+
+            var result = await _sqlClient.ExecuteQueryList<UserWorkoutsListDto>(getAllQuery, FuncToGetWorkoutsForUser);
+            Random r = new Random();
+            var resultTask = result.Select(d => new UserWorkoutsListDo
+            {
+                TreniruotesId = new Guid(d.TreniruotesId),
+                Pavadinimas = d.Pavadinimas,
+                Aprasymas = d.Aprasymas,
+                SukurimoData = DateTime.Parse(d.SukurimoData),
+                Progress = r.Next(0, 100)
+            });
+
+            return resultTask;
+        }
+
         public async Task<IEnumerable<TreniruotesWithDataDo>> GetEditData(Guid id)
         {
             var getQueryOfTreniruote = string.Format(_getTreniruotesEditData, id.ToString());
@@ -117,6 +137,22 @@ namespace Persistance.Repositories.Treniruote
             {
                 TreniruotesId = TreniruotesId,
                 TrenerioId = TrenerioId,
+                Pavadinimas = Pavadinimas,
+                Aprasymas = Aprasymas,
+                SukurimoData = SukurimoData.ToString()
+            };
+        }
+
+        private async Task<UserWorkoutsListDto> FuncToGetWorkoutsForUser(SqlDataReader reader) //pagalbine fnkc
+        {
+            var TreniruotesId = await reader.GetFieldValueAsync<string>("TreniruotesId");
+            var Pavadinimas = await reader.GetFieldValueAsync<string>("Pavadinimas");
+            var Aprasymas = await reader.GetFieldValueAsync<string>("Aprasymas");
+            var SukurimoData = await reader.GetFieldValueAsync<DateTime>("SukurimoData");
+
+            return new UserWorkoutsListDto
+            {
+                TreniruotesId = TreniruotesId,
                 Pavadinimas = Pavadinimas,
                 Aprasymas = Aprasymas,
                 SukurimoData = SukurimoData.ToString()

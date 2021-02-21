@@ -56,6 +56,15 @@ namespace ISporta.Controllers.TreniruoteControl
         }
 
         [HttpGet]
+        [Route("userTreniruotes/{trainerId}/{userId}")]
+        public async Task<ActionResult<IEnumerable<KvietimaiDo>>> GetAllQuestionnaire([FromRoute] Guid trainerId, [FromRoute] Guid userId)
+        {
+            var result = await _treniruoteRepo.GetUserWorkouts(trainerId, userId);
+
+            return new OkObjectResult(result);
+        }
+
+        [HttpGet]
         [Route("treniruoteEditData/{trenerioid}")]
         public async Task<ActionResult<IEnumerable<TreniruotesWithDataDo>>> GetAllTreniruoteData([FromRoute] Guid trenerioid)
         {
