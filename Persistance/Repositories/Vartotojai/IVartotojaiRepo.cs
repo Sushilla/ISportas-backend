@@ -1,4 +1,5 @@
 ﻿using Models.Models;
+using Models.Models.Treniruotes;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -12,5 +13,6 @@ namespace Persistance.Repositories.Vartotojai
         public Task Delete(Guid id, Guid vartId);
         public Task DeleteAll(Guid id);
         public Task<IEnumerable<Guid>> GetAll(Guid id);
+        public Task<IEnumerable<WorkoutUsersDo>> GetWorkoutUsers(Guid id);
     }
 }

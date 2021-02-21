@@ -1,5 +1,7 @@
 ﻿using Models.dto;
+using Models.dto.Workout;
 using Models.Models;
+using Models.Models.Treniruotes;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -18,6 +20,7 @@ namespace Persistance.Repositories.Vartotojai
         private readonly string _deleteQueryString = "DELETE FROM Vartotojai WHERE TreniruotesId='{0}' AND VartotojoId='{1}'";
         private readonly string _deleteAll = "DELETE FROM Vartotojai WHERE TreniruotesId='{0}'";
         private readonly string _getAllQueryString = "SELECT * FROM Vartotojai WHERE TreniruotesId = '{0}'";
+        private readonly string _getSelectedWorkoutUsers = "SELECT v.Id, v.Email, v.Vardas, v.Pavarde FROM Vartotojai as u, Vartotojas as v WHERE u.TreniruotesId = '{0}' and u.VartotojoId=v.Id";
 
         private readonly string _updateQueryString =
             "UPDATE Vartotojai SET TrenerioID='{0}', VartotojoId='{1}', Pavadinimas='{2}', Aprasymas='{3}' WHERE TreniruotesId='{4}'";
@@ -60,6 +63,7 @@ namespace Persistance.Repositories.Vartotojai
             return resultTask;
         }
 
+
         private async Task<VartotojaiDto> Func(SqlDataReader reader) //pagalbine fnkc
         {
             var TreniruotesId = await reader.GetFieldValueAsync<string>("TreniruotesId");
@@ -72,12 +76,44 @@ namespace Persistance.Repositories.Vartotojai
             };
         }
 
+        public async Task<IEnumerable<WorkoutUsersDo>> GetWorkoutUsers(Guid id)
+        {
+            var getAllQuery = string.Format(_getSelectedWorkoutUsers, id.ToString());
+
+            var result = await _sqlClient.ExecuteQueryList<WorkoutUsersDto>(getAllQuery, Funkc);
+            var resultTask = result.Select(d => new WorkoutUsersDo
+            {
+                Id = new Guid(d.Id),
+                Email = d.Email,
+                Vardas = d.Vardas,
+                Pavarde = d.Pavarde
+            });
+
+            return resultTask;
+        }
+
+        private async Task<WorkoutUsersDto> Funkc(SqlDataReader reader) //pagalbine fnkc
+        {
+            var Id = await reader.GetFieldValueAsync<string>("Id");
+            var Email = await reader.GetFieldValueAsync<string>("Email");
+            var Vardas = await reader.GetFieldValueAsync<string>("Vardas");
+            var Pavarde = await reader.GetFieldValueAsync<string>("Pavarde");
+
+            return new WorkoutUsersDto
+            {
+                Id = Id,
+                Email = Email,
+                Vardas = Vardas,
+                Pavarde = Pavarde
+            };
+        }
+
         /*public async Task Update(Guid TreniruotesId, Guid TrenerioID, Guid VartotojoId, string Pavadinimas, string Aprasymas)
         {
             var queryString = string.Format(_updateQueryString, TrenerioID, VartotojoId, Pavadinimas, Aprasymas, TreniruotesId);
 
             await _sqlClient.ExecuteNonQuery(queryString);
-        }*/ 
+        }*/
         //kolkas nereikia irgi
     }
 }

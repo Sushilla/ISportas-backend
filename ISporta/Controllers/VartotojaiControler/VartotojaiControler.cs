@@ -45,5 +45,14 @@ namespace ISporta.Controllers.VartotojaiControler
             return new OkObjectResult(result);
         }
 
+        [HttpGet]
+        [Route("vartotojaiWorkout/{treniruotesID}")]
+        public async Task<ActionResult<IEnumerable<VartotojaiDo>>> GetWorkoutUsers([FromRoute] Guid treniruotesID)
+        {
+            var result = await _vartotojaiRepo.GetWorkoutUsers(treniruotesID);
+
+            return new OkObjectResult(result);
+        }
+
     }
 }
