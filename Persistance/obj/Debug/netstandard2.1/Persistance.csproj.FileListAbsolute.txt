@@ -10,3 +10,15 @@ C:\Users\Robert\Desktop\4 metai\bakalauras\API\ISporta\Persistance\obj\Debug\net
 C:\Users\Robert\Desktop\4 metai\bakalauras\API\ISporta\Persistance\obj\Debug\netstandard2.1\Persistance.csproj.CopyComplete
 C:\Users\Robert\Desktop\4 metai\bakalauras\API\ISporta\Persistance\obj\Debug\netstandard2.1\Persistance.dll
 C:\Users\Robert\Desktop\4 metai\bakalauras\API\ISporta\Persistance\obj\Debug\netstandard2.1\Persistance.pdb
+C:\Users\Robert\Desktop\4 metai\.bakalauras\API\ISporta\Persistance\bin\Debug\netstandard2.1\Persistance.deps.json
+C:\Users\Robert\Desktop\4 metai\.bakalauras\API\ISporta\Persistance\bin\Debug\netstandard2.1\Persistance.dll
+C:\Users\Robert\Desktop\4 metai\.bakalauras\API\ISporta\Persistance\bin\Debug\netstandard2.1\Persistance.pdb
+C:\Users\Robert\Desktop\4 metai\.bakalauras\API\ISporta\Persistance\bin\Debug\netstandard2.1\Models.dll
+C:\Users\Robert\Desktop\4 metai\.bakalauras\API\ISporta\Persistance\bin\Debug\netstandard2.1\Models.pdb
+C:\Users\Robert\Desktop\4 metai\.bakalauras\API\ISporta\Persistance\obj\Debug\netstandard2.1\Persistance.csprojAssemblyReference.cache
+C:\Users\Robert\Desktop\4 metai\.bakalauras\API\ISporta\Persistance\obj\Debug\netstandard2.1\Persistance.AssemblyInfoInputs.cache
+C:\Users\Robert\Desktop\4 metai\.bakalauras\API\ISporta\Persistance\obj\Debug\netstandard2.1\Persistance.AssemblyInfo.cs
+C:\Users\Robert\Desktop\4 metai\.bakalauras\API\ISporta\Persistance\obj\Debug\netstandard2.1\Persistance.csproj.CoreCompileInputs.cache
+C:\Users\Robert\Desktop\4 metai\.bakalauras\API\ISporta\Persistance\obj\Debug\netstandard2.1\Persistance.csproj.CopyComplete
+C:\Users\Robert\Desktop\4 metai\.bakalauras\API\ISporta\Persistance\obj\Debug\netstandard2.1\Persistance.dll
+C:\Users\Robert\Desktop\4 metai\.bakalauras\API\ISporta\Persistance\obj\Debug\netstandard2.1\Persistance.pdb

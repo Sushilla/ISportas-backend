@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "cpm8HKBTyws30Jdf3i3uijZwXzeBbT9GZoygyru7yzL4jviLqyh5vEW3SNRPNa+GcvmTETLBKgiTFvHPyMNKJg==",
+  "dgSpecHash": "ilosg3T0tOmvNaJonA0oXvzKSkltTc34pC7Cywem8hYmdV7/HtI+f24qj5+bOKHRYPLodsUxrLCdRBDpGm8vcw==",
   "success": true,
-  "projectFilePath": "C:\\Users\\Robert\\Desktop\\4 metai\\bakalauras\\API\\ISporta\\ISporta\\ISporta.csproj",
+  "projectFilePath": "C:\\Users\\Robert\\Desktop\\4 metai\\.bakalauras\\API\\ISporta\\ISporta\\ISporta.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\Robert\\.nuget\\packages\\microsoft.extensions.apidescription.server\\3.0.0\\microsoft.extensions.apidescription.server.3.0.0.nupkg.sha512",
     "C:\\Users\\Robert\\.nuget\\packages\\microsoft.netcore.platforms\\3.1.0\\microsoft.netcore.platforms.3.1.0.nupkg.sha512",

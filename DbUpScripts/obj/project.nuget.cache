@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "csYDI/mAhIHcVrnxHC//3D1XI3OUedJZYy9sHiM8fpZNUb4v1roL/+WWGPc7MWX7n4ydfSdBGahGsCRHlopKng==",
+  "dgSpecHash": "8aanOeP7zXwuim/445sRKhdmpAhJkStaScFife5ajbDYH2Pxe9r9N4yL6qnU9X2K9v2zA+7SLW8oE1A6B/leRg==",
   "success": true,
-  "projectFilePath": "C:\\Users\\Robert\\Desktop\\4 metai\\bakalauras\\API\\ISporta\\DbUpScripts\\DbUpScripts.csproj",
+  "projectFilePath": "C:\\Users\\Robert\\Desktop\\4 metai\\.bakalauras\\API\\ISporta\\DbUpScripts\\DbUpScripts.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\Robert\\.nuget\\packages\\dbup\\4.4.0\\dbup.4.4.0.nupkg.sha512",
     "C:\\Users\\Robert\\.nuget\\packages\\dbup-core\\4.4.0\\dbup-core.4.4.0.nupkg.sha512",

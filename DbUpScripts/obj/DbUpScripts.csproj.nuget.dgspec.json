@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\Robert\\Desktop\\4 metai\\bakalauras\\API\\ISporta\\DbUpScripts\\DbUpScripts.csproj": {}
+    "C:\\Users\\Robert\\Desktop\\4 metai\\.bakalauras\\API\\ISporta\\DbUpScripts\\DbUpScripts.csproj": {}
   },
   "projects": {
-    "C:\\Users\\Robert\\Desktop\\4 metai\\bakalauras\\API\\ISporta\\DbUpScripts\\DbUpScripts.csproj": {
+    "C:\\Users\\Robert\\Desktop\\4 metai\\.bakalauras\\API\\ISporta\\DbUpScripts\\DbUpScripts.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\Robert\\Desktop\\4 metai\\bakalauras\\API\\ISporta\\DbUpScripts\\DbUpScripts.csproj",
+        "projectUniqueName": "C:\\Users\\Robert\\Desktop\\4 metai\\.bakalauras\\API\\ISporta\\DbUpScripts\\DbUpScripts.csproj",
         "projectName": "DbUpScripts",
-        "projectPath": "C:\\Users\\Robert\\Desktop\\4 metai\\bakalauras\\API\\ISporta\\DbUpScripts\\DbUpScripts.csproj",
+        "projectPath": "C:\\Users\\Robert\\Desktop\\4 metai\\.bakalauras\\API\\ISporta\\DbUpScripts\\DbUpScripts.csproj",
         "packagesPath": "C:\\Users\\Robert\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\Robert\\Desktop\\4 metai\\bakalauras\\API\\ISporta\\DbUpScripts\\obj\\",
+        "outputPath": "C:\\Users\\Robert\\Desktop\\4 metai\\.bakalauras\\API\\ISporta\\DbUpScripts\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"

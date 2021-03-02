@@ -25,11 +25,13 @@ namespace ISporta.Controllers.VartotojasControler.Dto
             [Route("vartotojas")]
             public async Task<ActionResult> CreateQuestionnaire([FromBody] InsertVartotojasRequest model)
             {
-                await _vartotojasRepo.UserRegister(model.Vardas, model.Pavarde, model.Email, model.Password);
-                return new AcceptedResult();
-            }
+                var result = await _vartotojasRepo.UserRegister(model.Vardas, model.Pavarde, model.Email, model.Password);
+                //return new AcceptedResult();
+                return new OkObjectResult(result);
 
-            [HttpDelete]
+        }
+
+        [HttpDelete]
             [Route("vartotojas/{id}")]
             public async Task<ActionResult> DeleteQuestionnaire([FromRoute] Guid id)
             {

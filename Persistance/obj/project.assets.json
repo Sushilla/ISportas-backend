@@ -709,11 +709,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\Robert\\Desktop\\4 metai\\bakalauras\\API\\ISporta\\Persistance\\Persistance.csproj",
+      "projectUniqueName": "C:\\Users\\Robert\\Desktop\\4 metai\\.bakalauras\\API\\ISporta\\Persistance\\Persistance.csproj",
       "projectName": "Persistance",
-      "projectPath": "C:\\Users\\Robert\\Desktop\\4 metai\\bakalauras\\API\\ISporta\\Persistance\\Persistance.csproj",
+      "projectPath": "C:\\Users\\Robert\\Desktop\\4 metai\\.bakalauras\\API\\ISporta\\Persistance\\Persistance.csproj",
       "packagesPath": "C:\\Users\\Robert\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\Robert\\Desktop\\4 metai\\bakalauras\\API\\ISporta\\Persistance\\obj\\",
+      "outputPath": "C:\\Users\\Robert\\Desktop\\4 metai\\.bakalauras\\API\\ISporta\\Persistance\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
@@ -733,8 +733,8 @@
         "netstandard2.1": {
           "targetAlias": "netstandard2.1",
           "projectReferences": {
-            "C:\\Users\\Robert\\Desktop\\4 metai\\bakalauras\\API\\ISporta\\Models\\Models.csproj": {
-              "projectPath": "C:\\Users\\Robert\\Desktop\\4 metai\\bakalauras\\API\\ISporta\\Models\\Models.csproj"
+            "C:\\Users\\Robert\\Desktop\\4 metai\\.bakalauras\\API\\ISporta\\Models\\Models.csproj": {
+              "projectPath": "C:\\Users\\Robert\\Desktop\\4 metai\\.bakalauras\\API\\ISporta\\Models\\Models.csproj"
             }
           }
         }

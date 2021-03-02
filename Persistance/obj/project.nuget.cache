@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "BNe58uC0LLiJBLX3sWg4zBWsHfY8nD3twGJ/COZJrFBjgq473SaL3Ct+/1GXGvaBTXWs7CTneE8sFgFYfiJGWA==",
+  "dgSpecHash": "r9G1nKsOmI2faqBVCdkwk5jZW0M7i+IkmHUyhAR795KzkAlejPSTeRzyiIoJI8SQhGaSsKUqGW0DVkANwUo1kA==",
   "success": true,
-  "projectFilePath": "C:\\Users\\Robert\\Desktop\\4 metai\\bakalauras\\API\\ISporta\\Persistance\\Persistance.csproj",
+  "projectFilePath": "C:\\Users\\Robert\\Desktop\\4 metai\\.bakalauras\\API\\ISporta\\Persistance\\Persistance.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\Robert\\.nuget\\packages\\microsoft.win32.registry\\4.7.0\\microsoft.win32.registry.4.7.0.nupkg.sha512",
     "C:\\Users\\Robert\\.nuget\\packages\\runtime.native.system.data.sqlclient.sni\\4.7.0\\runtime.native.system.data.sqlclient.sni.4.7.0.nupkg.sha512",
