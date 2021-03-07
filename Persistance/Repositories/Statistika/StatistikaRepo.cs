@@ -1,5 +1,6 @@
 ﻿using Models.dto;
 using Models.Models;
+using Models.Models.Statistic;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -17,6 +18,7 @@ namespace Persistance.Repositories.Statistika
         private readonly string _insertQueryString = "INSERT INTO Statistika (StatistikosId, TreniruotesPradzia, TreniruotesPabaiga, VartotojoId) VALUES ('{0}', '{1}', '{2}', '{3}')";
         private readonly string _deleteQueryString = "DELETE FROM Statistika WHERE StatistikosId='{0}'";
         private readonly string _getAllQueryString = "SELECT * FROM Statistika";
+        private readonly string _getUserGeneralStatistics = "SELECT * FROM Statistika as s WHERE s.VartotojoId = '{0}'";
 
         private readonly string _updateQueryString =
             "UPDATE Statistika SET TreniruotesPabaiga='{0}' WHERE StatistikosId='{1}'";
@@ -76,11 +78,61 @@ namespace Persistance.Repositories.Statistika
             };
         }
 
-        public async Task Update(Guid id, string baigimoData)
+        public async Task Update(Guid id, string baigimoData) //galima nedet baigimo laiko, o paimti call system time
         {
             var queryString = string.Format(_updateQueryString, baigimoData, id);
 
             await _sqlClient.ExecuteNonQuery(queryString);
+        }
+
+        public async Task<StatisticGeneralDo> GetUserGeneralStatistic(string VartotojoId)
+        {
+            var getAllQuery = string.Format(_getUserGeneralStatistics, VartotojoId);
+
+            //string[] chartLabel = new string[] { }; //pushint starto data
+            List<string> chartLabel = new List<string>(); 
+
+            var result = await _sqlClient.ExecuteQueryList<StatistikaDto>(getAllQuery, Func);
+
+            /*result.Select(d =>
+
+                chartLabel.Add(d.TreniruotesPradzia)
+            /*StatistikosId = new Guid(d.StatistikosId),
+            TreniruotesPradzia = DateTime.Parse(d.TreniruotesPradzia),
+            TreniruotesPabaiga = DateTime.Parse(d.TreniruotesPabaiga),
+            VartotojoId = new Guid(d.VartotojoId)
+            );
+            */
+
+            foreach(var d in result)
+            {
+                chartLabel.Add(d.TreniruotesPradzia);
+            }
+
+
+
+            var resultTask = new StatisticGeneralDo();
+            resultTask.meanTime = 25.05;
+            resultTask.meanCount = 15;
+            resultTask.chartLabels = chartLabel;
+
+            return resultTask;
+        }
+
+        private async Task<StatistikaDto> Func2(SqlDataReader reader) //pagalbine fnkc
+        {
+            var StatistikosId = await reader.GetFieldValueAsync<string>("StatistikosId");
+            var TreniruotesPradzia = await reader.GetFieldValueAsync<DateTime>("TreniruotesPradzia");
+            var TreniruotesPabaiga = await reader.GetFieldValueAsync<DateTime>("TreniruotesPabaiga");
+            var VartotojoId = await reader.GetFieldValueAsync<string>("VartotojoId");
+
+            return new StatistikaDto
+            {
+                StatistikosId = StatistikosId,
+                TreniruotesPradzia = TreniruotesPradzia.ToString(),
+                TreniruotesPabaiga = TreniruotesPabaiga.ToString(),
+                VartotojoId = VartotojoId
+            };
         }
     }
 }

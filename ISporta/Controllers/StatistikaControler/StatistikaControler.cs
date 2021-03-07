@@ -1,6 +1,7 @@
 ﻿using ISporta.Controllers.StatistikaControler.Dto;
 using Microsoft.AspNetCore.Mvc;
 using Models.dto;
+using Models.Models.Statistic;
 using Persistance.Repositories.Statistika;
 using System;
 using System.Collections.Generic;
@@ -41,6 +42,14 @@ namespace ISporta.Controllers.StatistikaControler
         public async Task<ActionResult<IEnumerable<StatistikaDo>>> GetAllQuestionnaire()
         {
             var result = await _statistikaRepo.GetAll();
+
+            return new OkObjectResult(result);
+        }
+        [HttpGet]
+        [Route("statistika/{userId}")]
+        public async Task<ActionResult<StatisticGeneralDo>> GetAllQuestionnaire([FromRoute] string userId)
+        {
+            var result = await _statistikaRepo.GetUserGeneralStatistic(userId);
 
             return new OkObjectResult(result);
         }

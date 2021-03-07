@@ -1,4 +1,5 @@
 ﻿using Models.dto;
+using Models.Models.Statistic;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -12,5 +13,6 @@ namespace Persistance.Repositories.Statistika
         public Task Delete(Guid id);
         public Task<IEnumerable<StatistikaDo>> GetAll();
         public Task Update(Guid id, string baigimoData);
+        public Task<StatisticGeneralDo> GetUserGeneralStatistic(string VartotojoId);
     }
 }
