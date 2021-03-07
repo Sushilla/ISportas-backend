@@ -1,4 +1,5 @@
 ﻿using Models.dto;
+using Models.dto.Statistics;
 using Models.Models;
 using Models.Models.Statistic;
 using System;
@@ -19,6 +20,7 @@ namespace Persistance.Repositories.Statistika
         private readonly string _deleteQueryString = "DELETE FROM Statistika WHERE StatistikosId='{0}'";
         private readonly string _getAllQueryString = "SELECT * FROM Statistika";
         private readonly string _getUserGeneralStatistics = "SELECT * FROM Statistika as s WHERE s.VartotojoId = '{0}'";
+        private readonly string _getUserMadedStat = "SELECT s.StatistikosId, p.Priejimai * p.Skaicius as ReikiaPadaryti, a.Skaicius as Padare FROM Statistika as s, AtliktuPratymuSkaicius as a, PratymuSkaicius as p WHERE s.VartotojoId = '{0}' AND s.StatistikosId=a.StatistikosId AND p.PratymoId=a.AtpazyntoPratymoId and p.TreniruotesId=a.TreniruotesId";
 
         private readonly string _updateQueryString =
             "UPDATE Statistika SET TreniruotesPabaiga='{0}' WHERE StatistikosId='{1}'";
@@ -89,6 +91,7 @@ namespace Persistance.Repositories.Statistika
         {
             var resultTask = new StatisticGeneralDo();
             var getAllQuery = string.Format(_getUserGeneralStatistics, VartotojoId);
+            var getAllQuery2 = string.Format(_getUserMadedStat, VartotojoId);
 
             List<string> chartLabel = new List<string>(); 
 
@@ -107,33 +110,57 @@ namespace Persistance.Repositories.Statistika
             }
             var tempTimeMean = temp / count;
             resultTask.meanTime = Math.Round(tempTimeMean, 2);
-            
+            List<int> goalEx = new List<int>();
+            List<int> userEx= new List<int>();
+            List<int> maxEx = new List<int>();
+            List<int> minEx = new List<int>();
+
+
+
+
+            var userMadeStat = await _sqlClient.ExecuteQueryList<UserExerciseCountDto>(getAllQuery2, Func2);
+
+            foreach(var u in userMadeStat)
+            {
+                
+            }
 
             //reikalaujama per treniruote
             //esama
             //max
             //min
-
+            tableDataa[] tblData = new tableDataa[4];
+            tblData[0] = new tableDataa();
+            tblData[1] = new tableDataa();
+            tblData[2] = new tableDataa();
+            tblData[3] = new tableDataa();
+            tblData[0].label = "Workout goal";
+            tblData[0].data = goalEx;
+            tblData[1].label = "User workout exercise count";
+            tblData[1].data = userEx;
+            tblData[2].label = "Max count per exercise";
+            tblData[2].data = maxEx;
+            tblData[3].label = "Min count per exercise";
+            tblData[3].data = minEx;
 
             resultTask.meanCount = 15;
             resultTask.chartLabels = chartLabel;
+            resultTask.dataForTable = tblData;
 
             return resultTask;
         }
 
-        private async Task<StatistikaDto> Func2(SqlDataReader reader) //pagalbine fnkc
+        private async Task<UserExerciseCountDto> Func2(SqlDataReader reader) //pagalbine fnkc
         {
             var StatistikosId = await reader.GetFieldValueAsync<string>("StatistikosId");
-            var TreniruotesPradzia = await reader.GetFieldValueAsync<DateTime>("TreniruotesPradzia");
-            var TreniruotesPabaiga = await reader.GetFieldValueAsync<DateTime>("TreniruotesPabaiga");
-            var VartotojoId = await reader.GetFieldValueAsync<string>("VartotojoId");
+            var reikiaPadaryti = await reader.GetFieldValueAsync<int>("ReikiaPadaryti");
+            var padare = await reader.GetFieldValueAsync<int>("Padare");
 
-            return new StatistikaDto
+            return new UserExerciseCountDto
             {
                 StatistikosId = StatistikosId,
-                TreniruotesPradzia = TreniruotesPradzia.ToString(),
-                TreniruotesPabaiga = TreniruotesPabaiga.ToString(),
-                VartotojoId = VartotojoId
+                ReikiaPadaryti = reikiaPadaryti,
+                Padare = padare
             };
         }
     }
