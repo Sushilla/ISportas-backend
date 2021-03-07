@@ -117,11 +117,46 @@ namespace Persistance.Repositories.Statistika
 
 
 
+            List<string> tempArr = new List<string>();
 
             var userMadeStat = await _sqlClient.ExecuteQueryList<UserExerciseCountDto>(getAllQuery2, Func2);
 
-            foreach(var u in userMadeStat)
+            foreach (var u in userMadeStat)
             {
+                if (tempArr.Any())
+                {
+                    int index = tempArr.FindIndex(x => x == u.StatistikosId);
+                    if (index == -1)//jei nerado
+                    {
+                        tempArr.Add(u.StatistikosId);
+                        goalEx.Add(u.ReikiaPadaryti);
+                        userEx.Add(u.Padare);
+                        maxEx.Add(u.Padare);
+                        minEx.Add(u.Padare);
+                    }
+                    else //rado
+                    {
+                        goalEx[index] += u.ReikiaPadaryti;
+                        userEx[index] += u.Padare;
+                        if(maxEx[index] < u.Padare)
+                        {
+                            maxEx[index] = u.Padare;
+                        }
+
+                        if(minEx[index] > u.Padare)
+                        {
+                            minEx[index] = u.Padare;
+                        }
+                    }
+                }
+                else
+                {
+                    tempArr.Add(u.StatistikosId);
+                    goalEx.Add(u.ReikiaPadaryti);
+                    userEx.Add(u.Padare);
+                    maxEx.Add(u.Padare);
+                    minEx.Add(u.Padare);
+                }
                 
             }
 
@@ -143,7 +178,14 @@ namespace Persistance.Repositories.Statistika
             tblData[3].label = "Min count per exercise";
             tblData[3].data = minEx;
 
-            resultTask.meanCount = 15;
+            double tempCount = 0;
+            foreach(var a in userEx)
+            {
+                tempCount += a;
+            }
+
+            var avg = tempCount / count;
+            resultTask.meanCount = Math.Round(avg, 2);
             resultTask.chartLabels = chartLabel;
             resultTask.dataForTable = tblData;
 
