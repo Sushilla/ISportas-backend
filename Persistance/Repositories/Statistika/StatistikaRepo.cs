@@ -87,32 +87,34 @@ namespace Persistance.Repositories.Statistika
 
         public async Task<StatisticGeneralDo> GetUserGeneralStatistic(string VartotojoId)
         {
+            var resultTask = new StatisticGeneralDo();
             var getAllQuery = string.Format(_getUserGeneralStatistics, VartotojoId);
 
-            //string[] chartLabel = new string[] { }; //pushint starto data
             List<string> chartLabel = new List<string>(); 
 
             var result = await _sqlClient.ExecuteQueryList<StatistikaDto>(getAllQuery, Func);
 
-            /*result.Select(d =>
-
-                chartLabel.Add(d.TreniruotesPradzia)
-            /*StatistikosId = new Guid(d.StatistikosId),
-            TreniruotesPradzia = DateTime.Parse(d.TreniruotesPradzia),
-            TreniruotesPabaiga = DateTime.Parse(d.TreniruotesPabaiga),
-            VartotojoId = new Guid(d.VartotojoId)
-            );
-            */
-
+            double temp = 0;
+            int count = 0;
             foreach(var d in result)
             {
                 chartLabel.Add(d.TreniruotesPradzia);
+                var start = DateTime.Parse(d.TreniruotesPradzia);
+                var pabaiga = DateTime.Parse(d.TreniruotesPabaiga);
+                var skirt = pabaiga - start;
+                temp += skirt.TotalHours;
+                count++;
             }
+            var tempTimeMean = temp / count;
+            resultTask.meanTime = Math.Round(tempTimeMean, 2);
+            
+
+            //reikalaujama per treniruote
+            //esama
+            //max
+            //min
 
 
-
-            var resultTask = new StatisticGeneralDo();
-            resultTask.meanTime = 25.05;
             resultTask.meanCount = 15;
             resultTask.chartLabels = chartLabel;
 
