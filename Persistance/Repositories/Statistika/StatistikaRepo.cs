@@ -205,5 +205,97 @@ namespace Persistance.Repositories.Statistika
                 Padare = padare
             };
         }
+
+        public async Task<StatisticGeneralDo2> GetUserlStatisticForTrainer(string VartotojoId)
+        {
+            var resultTask = new StatisticGeneralDo2();
+            var getAllQuery = string.Format(_getUserGeneralStatistics, VartotojoId);
+            var getAllQuery2 = string.Format(_getUserMadedStat, VartotojoId);
+
+            List<string> chartLabel = new List<string>();
+
+            var result = await _sqlClient.ExecuteQueryList<StatistikaDto>(getAllQuery, Func);
+
+
+            List<double> averageTime = new List<double>();
+            double temp = 0;
+            int count = 0;
+            foreach (var d in result)
+            {
+                chartLabel.Add(d.TreniruotesPradzia);
+                var start = DateTime.Parse(d.TreniruotesPradzia);
+                var pabaiga = DateTime.Parse(d.TreniruotesPabaiga);
+                var skirt = pabaiga - start;
+                temp += skirt.TotalHours;
+                count++;
+                averageTime.Add(Math.Round(temp / count, 2));
+            }
+
+
+            tableDataa2[] tblData2 = new tableDataa2[1];
+            tblData2[0] = new tableDataa2();
+            tblData2[0].label = "User average training time";
+            tblData2[0].data = averageTime;
+
+
+            var tempTimeMean = temp / count;
+            List<int> goalEx = new List<int>();
+            List<int> userEx = new List<int>();
+
+            List<string> tempArr = new List<string>();
+
+            var userMadeStat = await _sqlClient.ExecuteQueryList<UserExerciseCountDto>(getAllQuery2, Func2);
+
+            foreach (var u in userMadeStat)
+            {
+                if (tempArr.Any())
+                {
+                    int index = tempArr.FindIndex(x => x == u.StatistikosId);
+                    if (index == -1)//jei nerado
+                    {
+                        tempArr.Add(u.StatistikosId);
+                        goalEx.Add(u.ReikiaPadaryti);
+                        userEx.Add(u.Padare);
+                    }
+                    else //rado
+                    {
+                        goalEx[index] += u.ReikiaPadaryti;
+                        userEx[index] += u.Padare;
+                    }
+                }
+                else
+                {
+                    tempArr.Add(u.StatistikosId);
+                    goalEx.Add(u.ReikiaPadaryti);
+                    userEx.Add(u.Padare);
+                }
+
+            }
+
+            tableDataa[] tblData = new tableDataa[2];
+            tblData[0] = new tableDataa();
+            tblData[1] = new tableDataa();
+            tblData[0].label = "Workout goal";
+            tblData[0].data = goalEx;
+            tblData[1].label = "User workout exercise count";
+            tblData[1].data = userEx;
+
+
+            /*double tempCount = 0;
+            foreach (var a in userEx)
+            {
+                tempCount += a;
+            }
+
+            var avg = tempCount / count;
+            resultTask.meanTime = Math.Round(tempTimeMean, 2);
+
+            resultTask.meanCount = Math.Round(avg, 2);*/
+            resultTask.chartLabels = chartLabel;
+            resultTask.dataForTable = tblData;
+            resultTask.dataForTable2 = tblData2;
+
+            return resultTask;
+        }
     }
 }

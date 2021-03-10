@@ -54,6 +54,15 @@ namespace ISporta.Controllers.StatistikaControler
             return new OkObjectResult(result);
         }
 
+        [HttpGet]
+        [Route("statistikafortrainer/{userId}")]
+        public async Task<ActionResult<StatisticGeneralDo2>> GetAllQuestionnaireTrainer([FromRoute] string userId)
+        {
+            var result = await _statistikaRepo.GetUserlStatisticForTrainer(userId);
+
+            return new OkObjectResult(result);
+        }
+
         [HttpPost]
         [Route("statistika/{statistikosId}")]
         public async Task<ActionResult> UpdateQuestionnaire([FromRoute] Guid statistikosId, [FromBody] InsertStatistikaRequest model)
