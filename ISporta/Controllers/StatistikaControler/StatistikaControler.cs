@@ -55,10 +55,10 @@ namespace ISporta.Controllers.StatistikaControler
         }
 
         [HttpGet]
-        [Route("statistikafortrainer/{userId}")]
-        public async Task<ActionResult<StatisticGeneralDo2>> GetAllQuestionnaireTrainer([FromRoute] string userId)
+        [Route("statistikafortrainer/{userId}/{workoutId}")]
+        public async Task<ActionResult<StatisticGeneralDo2>> GetAllQuestionnaireTrainer([FromRoute] string userId, [FromRoute] string workoutId)
         {
-            var result = await _statistikaRepo.GetUserlStatisticForTrainer(userId);
+            var result = await _statistikaRepo.GetUserlStatisticForTrainer(userId, workoutId);
 
             return new OkObjectResult(result);
         }

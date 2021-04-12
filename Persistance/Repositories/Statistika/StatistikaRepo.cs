@@ -21,7 +21,7 @@ namespace Persistance.Repositories.Statistika
         private readonly string _getAllQueryString = "SELECT * FROM Statistika";
         private readonly string _getUserGeneralStatistics = "SELECT * FROM Statistika as s WHERE s.VartotojoId = '{0}'";
         private readonly string _getUserMadedStat = "SELECT s.StatistikosId, p.Priejimai * p.Skaicius as ReikiaPadaryti, a.Skaicius as Padare FROM Statistika as s, AtliktuPratymuSkaicius as a, PratymuSkaicius as p WHERE s.VartotojoId = '{0}' AND s.StatistikosId=a.StatistikosId AND p.PratymoId=a.AtpazyntoPratymoId and p.TreniruotesId=a.TreniruotesId";
-
+        private readonly string _getUserMadedStatForSelectedWorkout = "SELECT s.StatistikosId, p.Skaicius as ReikiaPadaryti, a.Skaicius as Padare FROM Statistika as s, AtliktuPratymuSkaicius as a, PratymuSkaicius as p WHERE s.VartotojoId = '{0}' AND s.StatistikosId=a.StatistikosId AND p.PratymoId=a.AtpazyntoPratymoId AND p.TreniruotesId=a.TreniruotesId AND a.TreniruotesId='{1}'";
         private readonly string _updateQueryString =
             "UPDATE Statistika SET TreniruotesPabaiga='{0}' WHERE StatistikosId='{1}'";
 
@@ -160,10 +160,6 @@ namespace Persistance.Repositories.Statistika
                 
             }
 
-            //reikalaujama per treniruote
-            //esama
-            //max
-            //min
             tableDataa[] tblData = new tableDataa[4];
             tblData[0] = new tableDataa();
             tblData[1] = new tableDataa();
@@ -206,11 +202,11 @@ namespace Persistance.Repositories.Statistika
             };
         }
 
-        public async Task<StatisticGeneralDo2> GetUserlStatisticForTrainer(string VartotojoId)
+        public async Task<StatisticGeneralDo2> GetUserlStatisticForTrainer(string VartotojoId, string WorkoutId)
         {
             var resultTask = new StatisticGeneralDo2();
             var getAllQuery = string.Format(_getUserGeneralStatistics, VartotojoId);
-            var getAllQuery2 = string.Format(_getUserMadedStat, VartotojoId);
+            var getAllQuery2 = string.Format(_getUserMadedStatForSelectedWorkout, VartotojoId, WorkoutId);
 
             List<string> chartLabel = new List<string>();
 

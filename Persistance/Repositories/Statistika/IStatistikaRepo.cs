@@ -14,6 +14,6 @@ namespace Persistance.Repositories.Statistika
         public Task<IEnumerable<StatistikaDo>> GetAll();
         public Task Update(Guid id, string baigimoData);
         public Task<StatisticGeneralDo> GetUserGeneralStatistic(string VartotojoId);
-        public Task<StatisticGeneralDo2> GetUserlStatisticForTrainer(string VartotojoId);
+        public Task<StatisticGeneralDo2> GetUserlStatisticForTrainer(string VartotojoId, string WorkoutId);
     }
 }
