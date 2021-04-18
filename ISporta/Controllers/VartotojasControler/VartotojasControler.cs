@@ -57,8 +57,17 @@ namespace ISporta.Controllers.VartotojasControler.Dto
                 return new AcceptedResult();
             }
 
+            [HttpPost]
+            [Route("vartotojasPassChange/{id}")]
+            public async Task<ActionResult> UpdatePassword([FromRoute] Guid id, [FromBody] UpdateUserPasswordas model)
+            {
+                var result = await _vartotojasRepo.UpdateUserPassword(id, model.oldPass, model.newPass);
 
-            [HttpGet]
+                 return new OkObjectResult(result);
+            }
+
+
+        [HttpGet]
             [Route("vartotojasTreneris")]
             public async Task<ActionResult<IEnumerable<TrainerListDo>>> GetTrainers()
             {

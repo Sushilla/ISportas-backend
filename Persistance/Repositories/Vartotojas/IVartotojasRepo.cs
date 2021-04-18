@@ -16,6 +16,7 @@ namespace Persistance.Repositories.Vartotojas
         public Task Update(Guid id, Guid rolesId, string vardas, string pavarde, string email, string password);
         public Task<IEnumerable<TrainerListDo>> GetTrainers();
         public Task<IEnumerable<LoginResponseDo>> GetLoginUserInfo(string email, string pass);
+        public Task<Boolean> UpdateUserPassword(Guid id, string oldPass, string newPass);
 
 
     }

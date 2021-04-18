@@ -28,6 +28,7 @@ namespace Persistance.Repositories.Vartotojas
 
         private readonly string _updateQueryString =
             "UPDATE Vartotojas SET RolesId='{0}', Vardas='{1}', Pavarde='{2}', Email='{3}', Password='{4}' WHERE Id='{5}'";
+        private readonly string _changeUserPassword = "IF EXISTS (SELECT * FROM Vartotojas as v WHERE v.Id='{0}' AND v.Password='{1}') BEGIN UPDATE Vartotojas SET Password='{2}' WHERE Id='{0}' AND Password='{1}' END ELSE BEGIN SELECT 0 as empty END";
         public VartotojasRepo(ISqlClient sqlclient)
         {
             _sqlClient = sqlclient;
@@ -130,6 +131,14 @@ namespace Persistance.Repositories.Vartotojas
             var queryString = string.Format(_updateQueryString, rolesId, vardas, pavarde, email, password, id);
 
             await _sqlClient.ExecuteNonQuery(queryString);
+        }
+
+        public async Task<Boolean> UpdateUserPassword(Guid id, string oldPass, string newPass)
+        {
+            var queryString = string.Format(_changeUserPassword, id, oldPass, newPass);
+
+            return await _sqlClient.ExecuteQueryCheck(queryString);
+
         }
 
         public async Task<IEnumerable<LoginResponseDo>> GetLoginUserInfo(string email, string pass)
