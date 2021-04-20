@@ -3,6 +3,7 @@ using Models.dto;
 using Models.dto.Statistics;
 using Models.Models;
 using Models.Models.Statistic;
+using Persistance.Repositories.AtliktuPrtymuSkaicius;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -16,6 +17,7 @@ namespace Persistance.Repositories.Statistika
     public class StatistikaRepo : IStatistikaRepo
     {
         private readonly ISqlClient _sqlClient;
+        private readonly IAtliktuPrtymuSkaicius _AtliktuPrtymuSkaicius;
 
         private readonly string _insertQueryString = "INSERT INTO Statistika (StatistikosId, TreniruotesPradzia, TreniruotesPabaiga, VartotojoId) VALUES ('{0}', '{1}', '{2}', '{3}')";
         private readonly string _deleteQueryString = "DELETE FROM Statistika WHERE StatistikosId='{0}'";
@@ -26,9 +28,10 @@ namespace Persistance.Repositories.Statistika
         private readonly string _updateQueryString =
             "UPDATE Statistika SET TreniruotesPabaiga='{0}' WHERE StatistikosId='{1}'";
 
-        public StatistikaRepo(ISqlClient sqlclient)
+        public StatistikaRepo(ISqlClient sqlclient, IAtliktuPrtymuSkaicius iAtliktuPrtymuSkaicius)
         {
             _sqlClient = sqlclient;
+            _AtliktuPrtymuSkaicius = iAtliktuPrtymuSkaicius;
         }
 
         public async Task<Guid> Insert(string VartotojoId)
@@ -47,6 +50,10 @@ namespace Persistance.Repositories.Statistika
             var queryString = string.Format(_updateQueryString, baigimoData, id);
 
             await _sqlClient.ExecuteNonQuery(queryString);
+
+            foreach(var exercise in prat){
+                await _AtliktuPrtymuSkaicius.Insert(exercise.TreniruotesId, exercise.StatistikosId, exercise.AtpazyntoPratymoId, exercise.Priejimas, exercise.Skaicius);
+            }
         }
 
         public async Task Delete(Guid id)

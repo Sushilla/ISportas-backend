@@ -11,6 +11,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Persistance.Repositories;
+using Persistance.Repositories.AtliktuPrtymuSkaicius;
 using Persistance.Repositories.Kvietimai;
 using Persistance.Repositories.PakviestiTreneriai;
 using Persistance.Repositories.PrasymaiPakeistRole;
@@ -52,6 +53,7 @@ namespace ISporta
             services.AddSingleton<IPratymaiRepo, PratymaiRepo>();
             services.AddSingleton<IStatistikaRepo, StatistikaRepo>();
             services.AddSingleton<IPratymuSkaiciusRepo, PratymuSkaiciusRepo>();
+            services.AddSingleton<IAtliktuPrtymuSkaicius, AtliktuPrtymuSkaicius>();
             services.AddSwaggerGen();
 
             services.AddCors(options => options.AddDefaultPolicy(builder => builder
