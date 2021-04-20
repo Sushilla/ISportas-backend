@@ -37,10 +37,10 @@ namespace ISporta.Controllers.PratymuSkaiciusControler
         }
 
         [HttpGet]
-        [Route("pratymuSkaicius/{trenerioid}")]
-        public async Task<ActionResult<IEnumerable<PratymuSksaiciusDo>>> GetAllQuestionnaire([FromRoute] Guid trenerioid)
+        [Route("pratymuSkaicius/{treniruotesid}")]
+        public async Task<ActionResult<IEnumerable<PratymuSksaiciusDo>>> GetAllQuestionnaire([FromRoute] Guid treniruotesid)
         {
-            var result = await _pratymuSkaiciusRepo.GetAll(trenerioid);
+            var result = await _pratymuSkaiciusRepo.GetAll(treniruotesid);
 
             return new OkObjectResult(result);
         }
