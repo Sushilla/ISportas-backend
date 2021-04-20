@@ -28,7 +28,7 @@ namespace Persistance.Repositories.PrasymaiPakeistRole
         public async Task<Guid> Insert(Guid Id)
         {
             var id = Guid.NewGuid();
-            var SukurimoData = DateTime.Now.ToString("MM/dd/yyyy HH:mm");
+            var SukurimoData = DateTime.Now.ToString("MM/dd/yyyy HH:mm:ss");
             var insertQuery = string.Format(_insertQueryString, id, Id.ToString(), SukurimoData);
 
             await _sqlClient.ExecuteNonQuery(insertQuery);

@@ -37,7 +37,7 @@ namespace Persistance.Repositories.Statistika
         public async Task<Guid> Insert(string VartotojoId)
         {
             var id = Guid.NewGuid();
-            var SukurimoData = DateTime.Now.ToString("MM/dd/yyyy HH:mm");
+            var SukurimoData = DateTime.Now.ToString("MM/dd/yyyy HH:mm:ss");
             var insertQuery = string.Format(_insertQueryString, id, SukurimoData, SukurimoData, VartotojoId);
 
             await _sqlClient.ExecuteNonQuery(insertQuery);
@@ -46,7 +46,7 @@ namespace Persistance.Repositories.Statistika
         }
         public async Task Update(Guid id, IEnumerable<AtliktiPrat> prat)
         {
-            var baigimoData = DateTime.Now.ToString("MM/dd/yyyy HH:mm");
+            var baigimoData = DateTime.Now.ToString("MM/dd/yyyy HH:mm:ss");
             var queryString = string.Format(_updateQueryString, baigimoData, id);
 
             await _sqlClient.ExecuteNonQuery(queryString);

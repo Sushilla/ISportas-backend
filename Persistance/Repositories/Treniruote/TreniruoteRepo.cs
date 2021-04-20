@@ -40,7 +40,7 @@ namespace Persistance.Repositories.Treniruote
         public async Task<Guid> Insert(string TrenerioID, string VartotojoId, string Pavadinimas, string Aprasymas, IEnumerable<string> vartId, IEnumerable<TreniruotesPratymai> prat)
         {
             var id = Guid.NewGuid();
-            var SukurimoData = DateTime.Now.ToString("MM/dd/yyyy HH:mm");
+            var SukurimoData = DateTime.Now.ToString("MM/dd/yyyy HH:mm:ss");
             var insertQuery = string.Format(_insertQueryString, id, TrenerioID, VartotojoId, Pavadinimas, Aprasymas, SukurimoData);
 
             await _sqlClient.ExecuteNonQuery(insertQuery);
