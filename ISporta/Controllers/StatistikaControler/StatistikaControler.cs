@@ -25,8 +25,8 @@ namespace ISporta.Controllers.StatistikaControler
         [Route("statistika")]
         public async Task<ActionResult> CreateQuestionnaire([FromBody] InsertStatistikaRequest model)
         {
-            await _statistikaRepo.Insert(model.VartotojoId);
-            return new AcceptedResult();
+            var rez = await _statistikaRepo.Insert(model.VartotojoId);
+            return new OkObjectResult(rez);
         }
 
         [HttpDelete]
@@ -65,9 +65,9 @@ namespace ISporta.Controllers.StatistikaControler
 
         [HttpPost]
         [Route("statistika/{statistikosId}")]
-        public async Task<ActionResult> UpdateQuestionnaire([FromRoute] Guid statistikosId, [FromBody] InsertStatistikaRequest model)
+        public async Task<ActionResult> UpdateQuestionnaire([FromRoute] Guid statistikosId, [FromBody] ExerciseData model)
         {
-            await _statistikaRepo.Update(statistikosId, model.TreniruotesPabaiga);
+            await _statistikaRepo.Update(statistikosId, model.StatistikaData);
 
             return new AcceptedResult();
         }

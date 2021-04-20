@@ -1,4 +1,5 @@
-﻿using Models.dto;
+﻿using Models.Classes;
+using Models.dto;
 using Models.dto.Statistics;
 using Models.Models;
 using Models.Models.Statistic;
@@ -40,6 +41,13 @@ namespace Persistance.Repositories.Statistika
 
             return id;
         }
+        public async Task Update(Guid id, IEnumerable<AtliktiPrat> prat)
+        {
+            var baigimoData = DateTime.Now.ToString("MM/dd/yyyy HH:mm");
+            var queryString = string.Format(_updateQueryString, baigimoData, id);
+
+            await _sqlClient.ExecuteNonQuery(queryString);
+        }
 
         public async Task Delete(Guid id)
         {
@@ -78,13 +86,6 @@ namespace Persistance.Repositories.Statistika
                 TreniruotesPabaiga = TreniruotesPabaiga.ToString(),
                 VartotojoId = VartotojoId
             };
-        }
-
-        public async Task Update(Guid id, string baigimoData) //galima nedet baigimo laiko, o paimti call system time
-        {
-            var queryString = string.Format(_updateQueryString, baigimoData, id);
-
-            await _sqlClient.ExecuteNonQuery(queryString);
         }
 
         public async Task<StatisticGeneralDo> GetUserGeneralStatistic(string VartotojoId)
