@@ -8,7 +8,7 @@ namespace Persistance.Repositories.Pratymai
 {
     public interface IPratymaiRepo
     {
-        public Task<Guid> Insert(string Pavadinimas);
+        public Task<Guid> Insert(IEnumerable<string> Pavadinimas);
         public Task Delete(Guid id);
         public Task<IEnumerable<PratymaiDo>> GetAll();
         public Task Update(Guid id, string pavadinimas);

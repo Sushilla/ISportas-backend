@@ -47,7 +47,7 @@ namespace ISporta.Controllers.PratymaiControler
 
         [HttpPost]
         [Route("pratymai/{pratymoid}")]
-        public async Task<ActionResult> UpdateQuestionnaire([FromRoute] Guid pratymoid, [FromBody] InsertPratymaiRequest model)
+        public async Task<ActionResult> UpdateQuestionnaire([FromRoute] Guid pratymoid, [FromBody] UpdatePratymaiRequest model)
         {
             await _pratymaiRepo.Update(pratymoid, model.Pavadinimas);
 

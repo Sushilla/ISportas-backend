@@ -5,8 +5,8 @@ using System.Threading.Tasks;
 
 namespace ISporta.Controllers.PratymaiControler.Dto
 {
-    public class InsertPratymaiRequest
+    public class UpdatePratymaiRequest
     {
-        public IEnumerable<string> Pavadinimas { get; set; }
+        public string Pavadinimas { get; set; }
     }
 }

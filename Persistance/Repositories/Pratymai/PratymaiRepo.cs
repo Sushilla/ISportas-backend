@@ -26,12 +26,15 @@ namespace Persistance.Repositories.Pratymai
             _sqlClient = sqlclient;
         }
 
-        public async Task<Guid> Insert(string Pavadinimas)
+        public async Task<Guid> Insert(IEnumerable<string> Pavadinimas)
         {
             var id = Guid.NewGuid();
-            var insertQuery = string.Format(_insertQueryString, id, Pavadinimas);
+            foreach (var a in Pavadinimas)
+            {
+                var insertQuery = string.Format(_insertQueryString, id, a);
 
-            await _sqlClient.ExecuteNonQuery(insertQuery);
+                await _sqlClient.ExecuteNonQuery(insertQuery);
+            }
 
             return id;
         }
