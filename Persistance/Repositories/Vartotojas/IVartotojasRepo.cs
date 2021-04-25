@@ -18,6 +18,6 @@ namespace Persistance.Repositories.Vartotojas
         public Task<IEnumerable<LoginResponseDo>> GetLoginUserInfo(string email, string pass);
         public Task<Boolean> UpdateUserPassword(Guid id, string oldPass, string newPass);
 
-
+        public Task<IEnumerable<UserDataDo>> GetUserData(Guid userId);
     }
 }

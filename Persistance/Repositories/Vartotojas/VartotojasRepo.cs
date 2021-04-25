@@ -25,6 +25,7 @@ namespace Persistance.Repositories.Vartotojas
         private readonly string _getRegisteredUserInfo = "SELECT v.Id, v.Vardas, v.Pavarde, v.Email, r.Pavadinimas FROM Vartotojas as v, Role as r WHERE v.Id='{0}' AND v.RolesId=r.RolesId ";
         private readonly string _getTrainerQueryString = "SELECT Id, Email FROM Vartotojas WHERE RolesId='c2103b14-4be9-43e3-b11c-a8da83e83a78'";
         private readonly string _regUSer = "IF NOT EXISTS (SELECT * FROM Vartotojas WHERE Email = '{0}') BEGIN INSERT INTO Vartotojas (Id, RolesId, Vardas, Pavarde, Email, Password) VALUES ('{1}', '445e5161-bef7-432e-9329-30c4ffd09541', '{2}', '{3}', '{4}', '{5}') END";
+        private readonly string _getUserData = "SELECT v.Vardas, v.Pavarde, v.Email FROM Vartotojas as v WHERE v.Id='{0}'";
 
         private readonly string _updateQueryString =
             "UPDATE Vartotojas SET RolesId='{0}', Vardas='{1}', Pavarde='{2}', Email='{3}', Password='{4}' WHERE Id='{5}'";
@@ -175,6 +176,35 @@ namespace Persistance.Repositories.Vartotojas
                 Pavarde = Pavarde,
                 Email = Email,
                 Pavadinimas = Pavadinimas
+            };
+        }
+
+        public async Task<IEnumerable<UserDataDo>> GetUserData(Guid userId)
+        {
+            var getAllQuery = string.Format(_getUserData, userId);
+
+            var result = await _sqlClient.ExecuteQueryList<UserDataDto>(getAllQuery, FuncForData);
+            var resultTask = result.Select(d => new UserDataDo
+            {
+                Vardas = d.Vardas,
+                Pavarde = d.Pavarde,
+                Email = d.Email
+            });
+
+            return resultTask;
+        }
+
+        private async Task<UserDataDto> FuncForData(SqlDataReader reader) //pagalbine fnkc
+        {
+            var Vardas = await reader.GetFieldValueAsync<string>("Vardas");
+            var Pavarde = await reader.GetFieldValueAsync<string>("Pavarde");
+            var Email = await reader.GetFieldValueAsync<string>("Email");
+
+            return new UserDataDto
+            {
+                Vardas = Vardas,
+                Pavarde = Pavarde,
+                Email = Email
             };
         }
     }

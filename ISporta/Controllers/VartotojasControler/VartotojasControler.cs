@@ -48,7 +48,16 @@ namespace ISporta.Controllers.VartotojasControler.Dto
                 return new OkObjectResult(result);
             }
 
-            [HttpPost]
+            [HttpGet]
+            [Route("vartotojas/{userId}")]
+            public async Task<ActionResult<IEnumerable<VartotojasDo>>> GetUserData([FromRoute] Guid userId)
+            {
+                var result = await _vartotojasRepo.GetUserData(userId);
+
+                return new OkObjectResult(result);
+            }
+
+            [HttpPost]  
             [Route("vartotojas/{id}")]
             public async Task<ActionResult> UpdateQuestionnaire([FromRoute] Guid id, [FromBody] InsertVartotojasRequest model)
             {
