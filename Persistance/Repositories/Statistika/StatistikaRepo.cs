@@ -175,7 +175,7 @@ namespace Persistance.Repositories.Statistika
             tblData[3] = new tableDataa();
             tblData[0].label = "Workout goal";
             tblData[0].data = goalEx;
-            tblData[1].label = "User workout exercise count";
+            tblData[1].label = "User's workout exercise count";
             tblData[1].data = userEx;
             tblData[2].label = "Max count per exercise";
             tblData[2].data = maxEx;
@@ -238,7 +238,7 @@ namespace Persistance.Repositories.Statistika
 
             tableDataa2[] tblData2 = new tableDataa2[1];
             tblData2[0] = new tableDataa2();
-            tblData2[0].label = "User average training time";
+            tblData2[0].label = "User's average training time";
             tblData2[0].data = averageTime;
 
 
@@ -281,7 +281,7 @@ namespace Persistance.Repositories.Statistika
             tblData[1] = new tableDataa();
             tblData[0].label = "Workout goal";
             tblData[0].data = goalEx;
-            tblData[1].label = "User workout exercise count";
+            tblData[1].label = "User's workout exercise count";
             tblData[1].data = userEx;
 
 
