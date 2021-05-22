@@ -12,5 +12,6 @@ namespace Persistance.Repositories
         Task<T> ExecuteQuery<T>(string query, Func<SqlDataReader, Task<T>> func);
         Task ExecuteNonQuery(string query);
         Task<Boolean> ExecuteQueryCheck(string query);
+        public Task newFunc(SqlCommand sqlCommand);
     }
 }

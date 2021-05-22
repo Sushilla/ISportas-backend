@@ -72,5 +72,16 @@ namespace Persistance.Repositories
             using (var reader = await queryCommand.ExecuteReaderAsync())
                 return (reader.HasRows);
         }
+
+        public async Task newFunc(SqlCommand queryCommand)
+        {
+            using var sqlConnection = new SqlConnection(_conString);
+
+            queryCommand.Connection = sqlConnection;
+
+            await sqlConnection.OpenAsync();
+
+            await queryCommand.ExecuteNonQueryAsync();
+        }
     }
 }
