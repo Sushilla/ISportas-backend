@@ -21,14 +21,14 @@ namespace Persistance.Repositories.Treniruote
         private readonly IVartotojaiRepo _ivertotojai;
         private readonly IPratymuSkaiciusRepo _ipratymuSkaicius;
 
-        private readonly string _insertQueryString = "INSERT INTO Treniruote (TreniruotesId, TrenerioId, VartotojoId, Pavadinimas, Aprasymas, SukurimoData) VALUES ('{0}', '{1}', '{2}', '{3}', '{4}', '{5}')";
+        private readonly string _insertQueryString = "INSERT INTO Treniruote (TreniruotesId, TrenerioId, VartotojoId, Pavadinimas, Aprasymas, SukurimoData) VALUES (@id, @trenerioID, @vartotojoId, @pavadinimas, @aprasymas, @sukurimoData)";
         private readonly string _deleteQueryString = "DELETE FROM Treniruote WHERE TreniruotesId='{0}'";
         private readonly string _getAllQueryString = "SELECT t.TreniruotesId, t.TrenerioId, t.Pavadinimas, t.Aprasymas, t.SukurimoData FROM Treniruote as t WHERE TrenerioId='{0}'";
         private readonly string _getTreniruotesEditData = "SELECT t.TreniruotesId, t.TrenerioId, t.Pavadinimas, t.Aprasymas, t.SukurimoData FROM Treniruote as t WHERE TreniruotesId='{0}'";
         private readonly string _getUserWorkoutList = "SELECT t.TreniruotesId, t.Pavadinimas, t.Aprasymas, t.SukurimoData FROM Treniruote as t, Vartotojai as u WHERE t.TrenerioId = '{0}' and t.TreniruotesId = u.TreniruotesId and u.VartotojoId = '{1}'";
 
         private readonly string _updateQueryString =
-            "UPDATE Treniruote SET Pavadinimas='{0}', Aprasymas='{1}' WHERE TreniruotesId='{2}'";
+            "UPDATE Treniruote SET Pavadinimas=@pavadinimas, Aprasymas=@aprasymas WHERE TreniruotesId=@treniruotesId";
 
         public TreniruoteRepo(ISqlClient sqlclient, IVartotojaiRepo ivertotojai, IPratymuSkaiciusRepo ipratymuSkaicius)
         {
@@ -41,9 +41,22 @@ namespace Persistance.Repositories.Treniruote
         {
             var id = Guid.NewGuid();
             var SukurimoData = DateTime.Now.ToString("MM/dd/yyyy HH:mm:ss");
-            var insertQuery = string.Format(_insertQueryString, id, TrenerioID, VartotojoId, Pavadinimas, Aprasymas, SukurimoData);
 
-            await _sqlClient.ExecuteNonQuery(insertQuery);
+            SqlCommand sqlCom = new SqlCommand();
+            sqlCom.CommandText = _insertQueryString;
+            VartotojoId = "";
+
+            sqlCom.Parameters.AddWithValue("@id", id);
+            sqlCom.Parameters.AddWithValue("@trenerioID", TrenerioID);
+            sqlCom.Parameters.AddWithValue("@vartotojoId", VartotojoId);
+            sqlCom.Parameters.AddWithValue("@pavadinimas", Pavadinimas);
+            sqlCom.Parameters.AddWithValue("@aprasymas", Aprasymas);
+            sqlCom.Parameters.AddWithValue("@sukurimoData", SukurimoData);
+
+            await _sqlClient.newFunc(sqlCom);
+            //var insertQuery = string.Format(_insertQueryString, id, TrenerioID, VartotojoId, Pavadinimas, Aprasymas, SukurimoData);
+
+            //await _sqlClient.ExecuteNonQuery(insertQuery);
 
             foreach(var vart in vartId)
             {
@@ -168,9 +181,18 @@ namespace Persistance.Repositories.Treniruote
 
         public async Task Update(Guid TreniruotesId, string Pavadinimas, string Aprasymas)
         {
-            var queryString = string.Format(_updateQueryString, Pavadinimas, Aprasymas, TreniruotesId);
 
-            await _sqlClient.ExecuteNonQuery(queryString);
+            SqlCommand sqlCom = new SqlCommand();
+            sqlCom.CommandText = _updateQueryString;
+
+            sqlCom.Parameters.AddWithValue("@pavadinimas", Pavadinimas);
+            sqlCom.Parameters.AddWithValue("@aprasymas", Aprasymas);
+            sqlCom.Parameters.AddWithValue("@treniruotesId", TreniruotesId);
+
+            await _sqlClient.newFunc(sqlCom);
+            //var queryString = string.Format(_updateQueryString, Pavadinimas, Aprasymas, TreniruotesId);
+
+            //await _sqlClient.ExecuteNonQuery(queryString);
         }
     }
 }
