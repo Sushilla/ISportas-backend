@@ -23,10 +23,10 @@ namespace Persistance.Repositories.Vartotojas
         private readonly string _deleteQueryString = "DELETE FROM Vartotojas WHERE Id='{0}'";
         private readonly string _getAllQueryString = "SELECT * FROM Vartotojas";
         private readonly string _getLoginInfoIfUserExist = "IF EXISTS (SELECT * FROM Vartotojas as v WHERE v.Email='{0}' AND v.Password='{1}') BEGIN SELECT v.Id, v.Vardas, v.Pavarde, v.Email, r.Pavadinimas FROM Vartotojas as v, Role as r WHERE v.Email='{0}' AND v.Password='{1}' AND v.RolesId=r.RolesId END ELSE BEGIN SELECT 0 as empty END";
-        private readonly string _getRegisteredUserInfo = "SELECT v.Id, v.Vardas, v.Pavarde, v.Email, r.Pavadinimas FROM Vartotojasa as v, Role as r WHERE v.Id='{0}' AND v.RolesId=r.RolesId ";
+        private readonly string _getRegisteredUserInfo = "SELECT v.Id, v.Vardas, v.Pavarde, v.Email, r.Pavadinimas FROM Vartotojas as v, Role as r WHERE v.Id='{0}' AND v.RolesId=r.RolesId";
         private readonly string _getTrainerQueryString = "SELECT Id, Email FROM Vartotojas WHERE RolesId='c2103b14-4be9-43e3-b11c-a8da83e83a78'";
-        private readonly string _regUSer = "IF NOT EXISTS (SELECT * FROM Vartotojasa WHERE Email = '{0}') BEGIN INSERT INTO Vartotojasa (Id, RolesId, Vardas, Pavarde, Email, Password) VALUES ('{1}', '445e5161-bef7-432e-9329-30c4ffd09541', '{2}', '{3}', '{4}', '{5}') END";
-        private readonly string _regUSeris = "IF NOT EXISTS (SELECT * FROM Vartotojasa WHERE Email = @email) BEGIN INSERT INTO Vartotojasa (Id, RolesId, Vardas, Pavarde, Email, Password) VALUES (@id, '445e5161-bef7-432e-9329-30c4ffd09541', @vardas, @pavarde, @email, @password) END";
+        private readonly string _regUSer = "IF NOT EXISTS (SELECT * FROM Vartotojas WHERE Email = '{0}') BEGIN INSERT INTO Vartotojas (Id, RolesId, Vardas, Pavarde, Email, Password) VALUES ('{1}', '445e5161-bef7-432e-9329-30c4ffd09541', '{2}', '{3}', '{4}', '{5}') END";
+        private readonly string _regUSeris = "IF NOT EXISTS (SELECT * FROM Vartotojas WHERE Email = @email) BEGIN INSERT INTO Vartotojas (Id, RolesId, Vardas, Pavarde, Email, Password) VALUES (@id, '445e5161-bef7-432e-9329-30c4ffd09541', @vardas, @pavarde, @email, @password) END";
         private readonly string _getUserData = "SELECT v.Vardas, v.Pavarde, v.Email FROM Vartotojas as v WHERE v.Id='{0}'";
 
         private readonly string _updateQueryString =
@@ -50,7 +50,7 @@ namespace Persistance.Repositories.Vartotojas
             sqlCom.Parameters.AddWithValue("@id", id);
             sqlCom.Parameters.AddWithValue("@vardas", Vardas);
             sqlCom.Parameters.AddWithValue("@pavarde", Pavarde);
-            sqlCom.Parameters.AddWithValue("@password", Password);
+            sqlCom.Parameters.AddWithValue("@password", GetHash(sha256Hash, Password));
 
             await _sqlClient.newFunc(sqlCom);
 
@@ -173,7 +173,7 @@ namespace Persistance.Repositories.Vartotojas
 
         public async Task<Boolean> UpdateUserPassword(Guid id, string oldPass, string newPass)
         {
-            var queryString = string.Format(_changeUserPassword, id, oldPass, newPass);
+            var queryString = string.Format(_changeUserPassword, id, GetHash(sha256Hash, oldPass), GetHash(sha256Hash, newPass));
 
             return await _sqlClient.ExecuteQueryCheck(queryString);
 
@@ -181,7 +181,7 @@ namespace Persistance.Repositories.Vartotojas
 
         public async Task<IEnumerable<LoginResponseDo>> GetLoginUserInfo(string email, string pass)
         {
-            var getAllQuery = string.Format(_getLoginInfoIfUserExist, email, pass);
+            var getAllQuery = string.Format(_getLoginInfoIfUserExist, email, GetHash(sha256Hash, pass));
 
             var result = await _sqlClient.ExecuteQueryList<LoginResponseDto>(getAllQuery, FuncToGetDataForLogin);
             var resultTask = result.Select(d => new LoginResponseDo

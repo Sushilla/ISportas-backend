@@ -17,14 +17,12 @@
     <None Remove="Scripts\09-Statistika.sql" />
     <None Remove="Scripts\10-PakviestiTreneriai.sql" />
     <None Remove="Scripts\11-PrasymaiPakeistRole.sql" />
-    <None Remove="Scripts\12-Vartotojasa.sql" />
   </ItemGroup>
 
   <ItemGroup>
     <EmbeddedResource Include="Scripts\06-PratymuSkaicius.sql" />
     <EmbeddedResource Include="Scripts\08-AtliktuPratymuSkaicius.sql" />
     <EmbeddedResource Include="Scripts\11-PrasymaiPakeistRole.sql" />
-    <EmbeddedResource Include="Scripts\12-Vartotojasa.sql" />
     <EmbeddedResource Include="Scripts\10-PakviestiTreneriai.sql" />
     <EmbeddedResource Include="Scripts\09-Statistika.sql" />
     <EmbeddedResource Include="Scripts\07-Pratymai.sql" />

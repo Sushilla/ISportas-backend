@@ -4,9 +4,9 @@
 
      RolesId varchar(36),
 
-     Vardas varchar(50),
+     Vardas nvarchar(50) COLLATE Lithuanian_CI_AS,
 
-     Pavarde varchar(50),
+     Pavarde nvarchar(50) COLLATE Lithuanian_CI_AS,
 
      Email varchar(255),
 

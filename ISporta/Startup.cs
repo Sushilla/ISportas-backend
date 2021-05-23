@@ -42,7 +42,7 @@ namespace ISporta
             services.AddTransient<ISqlClient, SqlClient>(provider =>
 
                  new SqlClient(
-                     "Server=localhost;Initial Catalog=ISportDatabase;MultipleActiveResultSets=true;User Id=admin;Password=admin"));
+                     "Server=localhost;Initial Catalog=ISportaDatabase;MultipleActiveResultSets=true;User Id=admin;Password=admin"));
             services.AddSingleton<IRoleRepo, RoleRepo>();//kas karta kai new
             services.AddSingleton<IVartotojasRepo, VartotojasRepo>();
             services.AddSingleton<IKvietimaiRepo, KvietimaiRepo>();

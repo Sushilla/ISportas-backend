@@ -6,9 +6,9 @@
 
      VartotojoId varchar(36),
 
-     Pavadinimas varchar(50),
+     Pavadinimas nvarchar(50) COLLATE Lithuanian_CI_AS,
 
-     Aprasymas varchar(255),
+     Aprasymas nvarchar(255) COLLATE Lithuanian_CI_AS,
 
      SukurimoData datetime
  );

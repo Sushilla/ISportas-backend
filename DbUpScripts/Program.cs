@@ -11,7 +11,7 @@ namespace DbUpScripts
         {
             var connectionString =
                 args.FirstOrDefault()
-                ?? "Server=localhost;Initial Catalog=ISportDatabase;MultipleActiveResultSets=true;User Id=admin;Password=admin";
+                ?? "Server=localhost;Initial Catalog=ISportaDatabase;MultipleActiveResultSets=true;User Id=admin;Password=admin";
 
             var upgrader =
                 DeployChanges.To
